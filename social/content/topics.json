@@ -1,0 +1,10 @@
+[
+  { "angle": "steady", "guidance": "the ox keeps pulling regardless of market noise" },
+  { "angle": "supply", "guidance": "there is no mint function; 1,000,000 forever; holders can burn" },
+  { "angle": "verified", "guidance": "source verified on Etherscan; nothing hidden" },
+  { "angle": "nopanic", "guidance": "volatility versus the ox's calm" },
+  { "angle": "build", "guidance": "building in public on testnet with real tests; shipping over promising" },
+  { "angle": "honesty", "guidance": "it is a Sepolia testnet token, not tradeable and not for sale; beware scams" },
+  { "angle": "faq", "guidance": "answer a common question, e.g. can anyone mint, is it for sale" },
+  { "angle": "community", "guidance": "invite people to follow the build" }
+]

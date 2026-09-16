@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIVOX ($TVX) — The ox doesn't panic</title>
+<meta name="description" content="TIVOX ($TVX) is a fixed-supply ERC-20 token: 1,000,000 forever, no mint function, source verified on Etherscan. Slow, stubborn, and impossible to move.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="TIVOX ($TVX) — The ox doesn't panic">
+<meta property="og:description" content="Fixed supply. No mint function. Verified on-chain. The ox just keeps pulling.">
+<meta property="og:image" content="https://YOUR-USERNAME.github.io/tivox-token/assets/mascot.png">
+<meta property="og:url" content="https://YOUR-USERNAME.github.io/tivox-token/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://YOUR-USERNAME.github.io/tivox-token/">
+<link rel="icon" href="./assets/mascot.png">
+<!--
+  Privacy-friendly analytics: create a free account at https://www.goatcounter.com,
+  then uncomment the line below and replace YOUR-CODE with your GoatCounter subdomain.
+  <script data-goatcounter="https://YOUR-CODE.goatcounter.com/count" async src="//gc.zgo.at/count.js"></script>
+-->
+<style>
+  :root {
+    --neon: #39ff14;
+    --neon-glow: rgba(57,255,20,0.6);
+    --bg: #05050a;
+    --card: #0e0e16;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: radial-gradient(circle at top, #10101a 0%, #05050a 60%);
+    color: #f2f2f2;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    min-height: 100vh;
+  }
+  header {
+    text-align: center;
+    padding: 80px 20px 40px;
+  }
+  .logo {
+    font-size: 5rem;
+    font-weight: 900;
+    letter-spacing: 4px;
+    color: var(--neon);
+    text-shadow: 0 0 10px var(--neon-glow), 0 0 30px var(--neon-glow), 0 0 60px var(--neon-glow);
+    animation: pulse 2.5s infinite ease-in-out;
+  }
+  @keyframes pulse {
+    0%, 100% { text-shadow: 0 0 10px var(--neon-glow), 0 0 30px var(--neon-glow), 0 0 60px var(--neon-glow); }
+    50% { text-shadow: 0 0 20px var(--neon-glow), 0 0 50px var(--neon-glow), 0 0 90px var(--neon-glow); }
+  }
+  .tagline {
+    margin-top: 16px;
+    font-size: 1.3rem;
+    color: #aaa;
+    letter-spacing: 1px;
+  }
+  .ticker {
+    display: inline-block;
+    margin-top: 24px;
+    padding: 8px 20px;
+    border: 1px solid var(--neon);
+    border-radius: 999px;
+    color: var(--neon);
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+  .stats {
+    max-width: 900px;
+    margin: 60px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 0 20px;
+  }
+  .stat-card {
+    background: var(--card);
+    border: 1px solid #222;
+    border-radius: 16px;
+    padding: 28px 20px;
+    text-align: center;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .stat-card:hover {
+    border-color: var(--neon);
+    transform: translateY(-4px);
+  }
+  .stat-value {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--neon);
+  }
+  .stat-label {
+    margin-top: 8px;
+    color: #999;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .section {
+    max-width: 800px;
+    margin: 60px auto;
+    padding: 0 20px;
+    text-align: center;
+  }
+  .section h2 {
+    color: var(--neon);
+    font-size: 1.6rem;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+  }
+  .section p {
+    color: #ccc;
+    line-height: 1.7;
+    font-size: 1.05rem;
+  }
+  .contract-box {
+    max-width: 700px;
+    margin: 40px auto;
+    background: var(--card);
+    border: 1px dashed var(--neon);
+    border-radius: 12px;
+    padding: 18px 24px;
+    word-break: break-all;
+    font-family: monospace;
+    font-size: 0.9rem;
+    color: #ddd;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+  }
+  .contract-box:hover { background: #14141f; }
+  .copy-hint {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.75rem;
+    color: #777;
+  }
+  .cta {
+    text-align: center;
+    margin: 50px 0;
+  }
+  .btn {
+    display: inline-block;
+    background: var(--neon);
+    color: #000;
+    font-weight: 800;
+    padding: 14px 36px;
+    border-radius: 999px;
+    text-decoration: none;
+    letter-spacing: 1px;
+    box-shadow: 0 0 20px var(--neon-glow);
+    transition: transform 0.2s;
+  }
+  .btn:hover { transform: scale(1.05); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--neon);
+    border: 2px solid var(--neon);
+    box-shadow: none;
+    margin-left: 12px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 1rem;
+  }
+  .btn-secondary:hover { background: rgba(57,255,20,0.1); transform: scale(1.05); }
+  .badge {
+    display: inline-block;
+    margin-top: 14px;
+    color: #6f6;
+    font-size: 0.85rem;
+  }
+  footer {
+    text-align: center;
+    padding: 50px 20px 30px;
+    color: #555;
+    font-size: 0.85rem;
+  }
+  .socials {
+    margin-top: 16px;
+  }
+  .socials a {
+    color: #888;
+    margin: 0 10px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border-bottom: 1px dotted #444;
+  }
+  .socials a:hover { color: var(--neon); border-color: var(--neon); }
+  .social-pending {
+    color: #555;
+    margin: 0 10px;
+    font-size: 0.85rem;
+    font-style: italic;
+  }
+  .network-tag {
+    display: inline-block;
+    margin-top: 10px;
+    background: #221a00;
+    color: #ffcc00;
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    letter-spacing: 1px;
+    border: 1px solid #554400;
+  }
+  .mascot {
+    width: 260px;
+    max-width: 60vw;
+    margin: 10px auto 0;
+    display: block;
+    filter: drop-shadow(0 0 25px var(--neon-glow)) drop-shadow(0 0 55px var(--neon-glow));
+    animation: float 4s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-14px); }
+  }
+
+  #bg-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+  body > *:not(#bg-canvas) {
+    position: relative;
+    z-index: 1;
+  }
+  .marquee-wrap {
+    overflow: hidden;
+    white-space: nowrap;
+    border-top: 1px solid #1a1a1a;
+    border-bottom: 1px solid #1a1a1a;
+    background: #0a0a12;
+    padding: 14px 0;
+    margin-top: 10px;
+  }
+  .marquee-track {
+    display: inline-flex;
+    animation: scrollMarquee 26s linear infinite;
+    font-weight: 800;
+    letter-spacing: 3px;
+    font-size: 1.1rem;
+    color: var(--neon);
+    text-shadow: 0 0 8px var(--neon-glow);
+  }
+  .marquee-track .marquee-group {
+    display: inline-flex;
+    flex-shrink: 0;
+  }
+  .marquee-track .marquee-group span {
+    margin: 0 40px;
+    opacity: 0.9;
+  }
+  @keyframes scrollMarquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .logo, .mascot, .marquee-track, #bg-canvas, .reveal {
+      animation: none !important;
+      transition: none !important;
+    }
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
+    #bg-canvas { display: none; }
+  }
+  .stats .stat-card.reveal:nth-child(1) { transition-delay: 0.05s; }
+  .stats .stat-card.reveal:nth-child(2) { transition-delay: 0.15s; }
+  .stats .stat-card.reveal:nth-child(3) { transition-delay: 0.25s; }
+  .stats .stat-card.reveal:nth-child(4) { transition-delay: 0.35s; }
+  .glow-divider {
+    height: 1px;
+    max-width: 700px;
+    margin: 50px auto;
+    background: linear-gradient(90deg, transparent, var(--neon), transparent);
+    opacity: 0.5;
+  }
+
+  @media (max-width: 640px) {
+    body { overflow-x: hidden; }
+    header { padding: 52px 20px 28px; }
+    .logo { font-size: 3.4rem; letter-spacing: 2px; }
+    .tagline { font-size: 1.12rem; }
+    .mascot { width: 200px; }
+    .stats {
+      gap: 14px;
+      padding: 0 16px;
+      grid-template-columns: repeat(2, 1fr);
+      margin: 44px auto;
+    }
+    .stat-card { padding: 22px 12px; }
+    .stat-value { font-size: 1.5rem; }
+    .section { padding: 0 16px; margin: 48px auto; }
+    .cta { margin: 40px 0; padding: 0 16px; }
+    .btn {
+      display: block;
+      width: 100%;
+      margin: 0 auto;
+      padding: 14px 20px;
+    }
+    .btn-secondary {
+      margin: 14px auto 0;
+      font-size: 1rem;
+    }
+    .contract-box { font-size: 0.78rem; padding: 16px 14px; }
+    footer { padding: 40px 16px 24px; }
+    .social-pending, .socials a {
+      display: block;
+      margin: 8px 0;
+    }
+  }
+</style>
+<noscript><style>.reveal { opacity: 1 !important; transform: none !important; }</style></noscript>
+</head>
+<body>
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
+<header>
+  <img class="mascot" src="./assets/mascot.png" alt="TIVOX mascot">
+  <div class="logo">TIVOX</div>
+  <div class="tagline">The ox doesn't panic. It just keeps pulling.</div>
+  <div class="ticker">$TVX</div>
+  <div><span class="network-tag">⚠ SEPOLIA TESTNET</span></div>
+</header>
+
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-group">
+      <span>TO THE MOON (EVENTUALLY)</span><span>FIXED SUPPLY</span><span>THE OX DOESN'T PANIC</span><span>VERIFIED ON ETHERSCAN</span><span>STILL PULLING</span><span>1,000,000 TVX FOREVER</span><span>NOBODY MOVES THE OX</span><span>NO MINT FUNCTION</span><span>ZERO NONSENSE</span><span>HOLD TIGHT</span>
+    </div>
+    <div class="marquee-group" aria-hidden="true">
+      <span>TO THE MOON (EVENTUALLY)</span><span>FIXED SUPPLY</span><span>THE OX DOESN'T PANIC</span><span>VERIFIED ON ETHERSCAN</span><span>STILL PULLING</span><span>1,000,000 TVX FOREVER</span><span>NOBODY MOVES THE OX</span><span>NO MINT FUNCTION</span><span>ZERO NONSENSE</span><span>HOLD TIGHT</span>
+    </div>
+  </div>
+</div>
+
+<section class="stats">
+  <div class="stat-card reveal">
+    <div class="stat-value" id="statSupply">1,000,000</div>
+    <div class="stat-label">Circulating Supply</div>
+  </div>
+  <div class="stat-card reveal">
+    <div class="stat-value">TVX</div>
+    <div class="stat-label">Symbol</div>
+  </div>
+  <div class="stat-card reveal">
+    <div class="stat-value">18</div>
+    <div class="stat-label">Decimals</div>
+  </div>
+  <div class="stat-card reveal">
+    <div class="stat-value" id="statVerified">✓ Verified</div>
+    <div class="stat-label">Etherscan Source</div>
+  </div>
+</section>
+<p id="dataStatus" style="text-align:center; font-size:0.8rem; color:#666; margin-top:18px; padding:0 20px;">● On-chain data — loading…</p>
+
+<div class="glow-divider"></div>
+
+<section class="section reveal">
+  <h2>What is TIVOX?</h2>
+  <p>Everything in this market runs on panic. TIVOX doesn't. The ox is slow, stubborn and impossible to move once it has decided where it's going — it doesn't chase the next shiny thing, it doesn't spook at a red candle, it just keeps pulling the plough. That's the whole idea, and the contract is built the same way.</p>
+  <p>TIVOX is a fixed-supply ERC-20 token — no hidden mint function, no surprise inflation, no owner backdoor to print more. What you see is what exists: exactly 1,000,000 TVX, forever. Holders can burn their own tokens, but no one can create more. The contract is fully open-source and verified on-chain for anyone to check.</p>
+</section>
+
+<div class="glow-divider"></div>
+
+<section class="section reveal">
+  <h2>Why an ox?</h2>
+  <p>Because nothing else in this space moves like one. An ox is not fast and it is not clever. It has no opinion on what the chart did this morning. It was pointed at a direction, and it is still going that way — through mud, through noise, through whatever everyone else is panicking about this week.</p>
+  <p>Most tokens are built to be exciting. This one is built to be boring in the places where boring matters: the supply can't change, the owner can't print, and the code is sitting on Etherscan for anyone to read. Everything else is just the ox, still pulling.</p>
+</section>
+
+<div class="contract-box reveal" onclick="copyAddress()">
+  0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0
+  <span class="copy-hint" id="copyHint">Tap to copy contract address</span>
+</div>
+
+<div class="cta reveal">
+  <a class="btn" href="https://sepolia.etherscan.io/address/0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0#code" target="_blank">View Verified Contract</a>
+  <a class="btn btn-secondary" href="./tools.html">Developer Tools</a>
+  <button class="btn btn-secondary" id="connectWalletBtn" onclick="connectWallet()">Connect Wallet</button>
+  <button class="btn btn-secondary" id="addTokenBtn" onclick="addTokenToMetaMask()">Add TVX to MetaMask</button>
+  <div class="badge">🔒 Source code publicly verified on Etherscan</div>
+  <div class="badge" id="walletStatus" style="display:none; margin-top:8px;"></div>
+  <div class="badge" style="margin-top:14px; color:#888;">No liquidity pool yet — TVX is not tradeable on any exchange or DEX. Connecting your wallet lets you view your TVX balance and add the token to MetaMask.</div>
+</div>
+
+<div class="glow-divider"></div>
+
+<section class="section reveal">
+  <h2>How to get Sepolia ETH (it's free)</h2>
+  <p>This is a Sepolia testnet token, so real money is never needed. To interact with it you need test ETH — grab some from a Sepolia faucet:</p>
+  <ul style="list-style:none; margin-top:14px; text-align:left; display:inline-block; color:#ccc; line-height:1.9; font-size:1rem;">
+    <li>1. Add the Sepolia network to MetaMask (or switch to it: <em>Ethereum → Sepolia test network</em>).</li>
+    <li>2. Copy your wallet address from MetaMask.</li>
+    <li>3. Get free Sepolia ETH from a faucet, e.g. <a href="https://sepoliafaucet.com" target="_blank" rel="noreferrer" style="color:var(--neon);">sepoliafaucet.com</a> or <a href="https://faucets.chain.link/sepolia" target="_blank" rel="noreferrer" style="color:var(--neon);">Chainlink Faucet</a>.</li>
+    <li>4. Paste your address, request, and the ETH arrives in under a minute.</li>
+    <li>5. Come back, connect your wallet, and check your TVX balance.</li>
+  </ul>
+  <p style="margin-top:16px; color:#999;">TVX is not for sale, has no liquidity pool, and is not tradeable — it exists purely as an on-chain proof of the fixed-supply contract.</p>
+</section>
+
+<div class="glow-divider"></div>
+
+<section class="section reveal">
+  <h2>FAQ</h2>
+  <p><strong style="color:var(--neon);">Can the supply ever increase?</strong></p>
+  <p>No. There is no mint function in the contract, verified on Etherscan. Exactly 1,000,000 TVX were created at deployment and that number can only shrink (holders may burn their own tokens).</p>
+  <p style="margin-top:16px;"><strong style="color:var(--neon);">Is it on mainnet?</strong></p>
+  <p>No — currently on Sepolia testnet for development. Mainnet deployment has not been planned.</p>
+  <p style="margin-top:16px;"><strong style="color:var(--neon);">Can I buy TVX?</strong></p>
+  <p>No. There is no liquidity pool and no exchange listing. If you receive TVX it is a gift for testing. Anyone asking you to pay is a scam.</p>
+  <p style="margin-top:16px;"><strong style="color:var(--neon);">Who can mint?</strong></p>
+  <p>No one. The contract has no mint function at all, so not even the owner can create more TVX. The owner also cannot pause transfers, freeze wallets, or take tokens back.</p>
+</section>
+
+<div class="glow-divider"></div>
+
+<footer>
+  <div>TIVOX ($TVX) — an independent ERC-20 token project. Slow, stubborn, fixed at 1,000,000.</div>
+  <div class="socials">
+    <span class="social-pending">Twitter / X — coming soon</span>
+    <span class="social-pending">Telegram — coming soon</span>
+  </div>
+  <div style="margin-top:14px;"><a href="./tools.html" style="color:#666;">Developer tools</a></div>
+  <div style="margin-top:20px; color:#444;">Currently live on Sepolia testnet for development purposes.</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@6.13.4/dist/ethers.umd.min.js"></script>
+<script>
+// ---- Live on-chain data (read-only) ----
+const TVX_ADDRESS = "0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0";
+const TVX_ABI = [
+  "function totalSupply() view returns (uint256)",
+  "function balanceOf(address) view returns (uint256)",
+  "function decimals() view returns (uint8)",
+  "function symbol() view returns (string)"
+];
+// Public Sepolia RPCs for read-only calls (no wallet needed to view live supply).
+// Multiple endpoints plus retry so a single rate-limited node doesn't break the page.
+const SEPOLIA_RPCs = [
+  "https://ethereum-sepolia-rpc.publicnode.com",
+  "https://rpc.sepolia.org",
+  "https://sepolia.gateway.tenderly.co",
+  "https://1rpc.io/sepolia"
+];
+
+function withTimeout(promise, ms) {
+  return Promise.race([
+    promise,
+    new Promise((_, reject) => setTimeout(() => reject(new Error("RPC timed out")), ms)),
+  ]);
+}
+
+async function readWithFallback(callRpc) {
+  let lastErr;
+  for (const rpc of SEPOLIA_RPCs) {
+    try {
+      const provider = new ethers.JsonRpcProvider(rpc);
+      const value = await withTimeout(callRpc(provider), 8000);
+      return value;
+    } catch (err) {
+      lastErr = err;
+      console.warn("RPC failed, trying next:", rpc, err);
+    }
+  }
+  throw lastErr || new Error("All Sepolia RPCs unreachable.");
+}
+
+async function loadLiveSupply() {
+  const el = document.getElementById('statSupply');
+  const statusEl = document.getElementById('dataStatus');
+  try {
+    const supply = await readWithFallback((provider) => {
+      const contract = new ethers.Contract(TVX_ADDRESS, TVX_ABI, provider);
+      return contract.totalSupply();
+    });
+    const formatted = Number(ethers.formatUnits(supply, 18)).toLocaleString();
+    if (el) el.textContent = formatted;
+    if (statusEl) {
+      statusEl.textContent = "● On-chain data — live";
+      statusEl.style.color = "#6f6";
+    }
+  } catch (err) {
+    console.warn("Could not fetch live supply, showing static fallback:", err);
+    if (statusEl) {
+      statusEl.textContent = "● On-chain data — offline (showing static estimate)";
+      statusEl.style.color = "#e8b84b";
+    }
+  }
+}
+loadLiveSupply();
+
+// ---- Wallet connect (MetaMask / injected provider) ----
+let connectedAddress = null;
+
+async function connectWallet() {
+  const statusEl = document.getElementById('walletStatus');
+  const btn = document.getElementById('connectWalletBtn');
+
+  if (typeof window.ethereum === "undefined") {
+    statusEl.style.display = 'block';
+    statusEl.textContent = "No wallet found — install MetaMask to connect.";
+    return;
+  }
+
+  try {
+    const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+    connectedAddress = accounts[0];
+
+    // Make sure we're on Sepolia; prompt switch if not
+    const chainId = await window.ethereum.request({ method: "eth_chainId" });
+    if (chainId !== "0xaa36a7") { // Sepolia chain id
+      try {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: "0xaa36a7" }],
+        });
+      } catch (switchErr) {
+        if (switchErr && switchErr.code === 4902) {
+          try {
+            await window.ethereum.request({
+              method: "wallet_addEthereumChain",
+              params: [{
+                chainId: "0xaa36a7",
+                chainName: "Sepolia",
+                nativeCurrency: { name: "Sepolia ETH", symbol: "ETH", decimals: 18 },
+                rpcUrls: ["https://rpc.sepolia.org"],
+                blockExplorerUrls: ["https://sepolia.etherscan.io"],
+              }],
+            });
+          } catch (addErr) {
+            statusEl.style.display = 'block';
+            statusEl.textContent = "Could not add Sepolia to your wallet.";
+            return;
+          }
+        } else {
+          statusEl.style.display = 'block';
+          statusEl.textContent = "Please switch your wallet network to Sepolia.";
+          return;
+        }
+      }
+    }
+
+    const provider = new ethers.BrowserProvider(window.ethereum);
+    const contract = new ethers.Contract(TVX_ADDRESS, TVX_ABI, provider);
+    const balance = await contract.balanceOf(connectedAddress);
+    const formatted = Number(ethers.formatUnits(balance, 18)).toLocaleString();
+
+    btn.textContent = connectedAddress.slice(0, 6) + "..." + connectedAddress.slice(-4);
+    statusEl.style.display = 'block';
+    statusEl.textContent = "Your balance: " + formatted + " TVX";
+  } catch (err) {
+    console.error(err);
+    statusEl.style.display = 'block';
+    statusEl.textContent = "Connection cancelled or failed.";
+  }
+}
+
+async function addTokenToMetaMask() {
+  const statusEl = document.getElementById('walletStatus');
+  if (typeof window.ethereum === "undefined") {
+    statusEl.style.display = 'block';
+    statusEl.textContent = "No wallet found — install MetaMask to connect.";
+    return;
+  }
+  try {
+    const wasAdded = await window.ethereum.request({
+      method: "wallet_watchAsset",
+      params: {
+        type: "ERC20",
+        options: {
+          address: TVX_ADDRESS,
+          symbol: "TVX",
+          decimals: 18,
+        },
+      },
+    });
+    statusEl.style.display = 'block';
+    statusEl.textContent = wasAdded
+      ? "TVX added to your wallet."
+      : "Adding TVX to your wallet was declined.";
+  } catch (err) {
+    console.error(err);
+    statusEl.style.display = 'block';
+    statusEl.textContent = "Could not add TVX to your wallet.";
+  }
+}
+
+// Floating particle background
+(function() {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const canvas = document.getElementById('bg-canvas');
+  const ctx = canvas.getContext('2d');
+  if (!ctx) return;
+  let w, h, particles;
+
+  function resize() {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  const COUNT = 55;
+  particles = Array.from({length: COUNT}, () => ({
+    x: Math.random() * w,
+    y: Math.random() * h,
+    r: Math.random() * 1.8 + 0.4,
+    vy: Math.random() * 0.3 + 0.08,
+    vx: (Math.random() - 0.5) * 0.15,
+    a: Math.random() * 0.5 + 0.15
+  }));
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = '#39ff14';
+    for (const p of particles) {
+      ctx.globalAlpha = p.a;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fill();
+      p.y -= p.vy;
+      p.x += p.vx;
+      if (p.y < -10) { p.y = h + 10; p.x = Math.random() * w; }
+      if (p.x < -10) p.x = w + 10;
+      if (p.x > w + 10) p.x = -10;
+    }
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// Scroll reveal
+(function() {
+  const items = document.querySelectorAll('.reveal');
+  if (!('IntersectionObserver' in window)) {
+    items.forEach((i) => i.classList.add('visible'));
+    return;
+  }
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  items.forEach(i => obs.observe(i));
+})();
+
+function copyAddress() {
+  const hint = document.getElementById('copyHint');
+  const address = "0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0";
+
+  function done(ok) {
+    hint.textContent = ok ? "Copied!" : "Copy failed — select the address manually";
+    setTimeout(() => {
+      hint.textContent = "Tap to copy contract address";
+    }, 1800);
+  }
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(address).then(() => done(true), () => done(fallbackCopy(address)));
+  } else {
+    done(fallbackCopy(address));
+  }
+}
+
+function fallbackCopy(text) {
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.setAttribute('readonly', '');
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  } catch (err) {
+    console.warn("Copy failed:", err);
+    return false;
+  }
+}
+</script>
+
+</body>
+</html>

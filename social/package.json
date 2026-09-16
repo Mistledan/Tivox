@@ -1,0 +1,16 @@
+{
+  "name": "tivox-social",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Social media automation for TIVOX ($TVX) — X, YouTube, Telegram, TikTok",
+  "scripts": {
+    "post": "node src/index.js",
+    "post:dry": "node src/index.js --dry-run",
+    "post:telegram": "node src/index.js --platforms=telegram",
+    "post:x": "node src/index.js --platforms=x"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
