@@ -25,6 +25,16 @@
         "tiktok"
       ],
       "count": 1
+    },
+    {
+      "ts": "2026-09-17T16:02:48.836Z",
+      "platforms": [
+        "telegram",
+        "x",
+        "youtube",
+        "tiktok"
+      ],
+      "count": 1
     }
   ]
 }
