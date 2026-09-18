@@ -1,6 +1,11 @@
 {
   "posted": {
-    "telegram": [],
+    "telegram": [
+      {
+        "id": "3",
+        "ts": "2026-09-18T01:51:40.142Z"
+      }
+    ],
     "x": [],
     "youtube": [],
     "tiktok": []
@@ -38,6 +43,16 @@
     },
     {
       "ts": "2026-09-17T20:50:55.468Z",
+      "platforms": [
+        "telegram",
+        "x",
+        "youtube",
+        "tiktok"
+      ],
+      "count": 1
+    },
+    {
+      "ts": "2026-09-18T01:51:40.143Z",
       "platforms": [
         "telegram",
         "x",
