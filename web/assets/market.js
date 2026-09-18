@@ -127,6 +127,12 @@ function encodeCall(sig, args) {
       var pair = "0x" + pairHex.slice(pairHex.length - 40);
       if (/^0x0+$/.test(pair)) throw new Error("pool not found");
       window.TIVOX_PAIR = pair;
+      (function wireCharts() {
+        var dex = $("link-chart-dex");
+        var dextools = $("link-chart-dextools");
+        if (dex) dex.href = "https://dexscreener.com/base/" + pair;
+        if (dextools) dextools.href = "https://www.dextools.io/app/en/base/pair-explorer/" + pair;
+      })();
 
       var token0 = decodeAddress(await callContract(pair, "token0()", []));
       var resHex = await callContract(pair, "getReserves()", []);
@@ -143,6 +149,11 @@ function encodeCall(sig, args) {
       } else {
         setText("mLp", "—");
       }
+
+      // --- On-chain: ownership (renounced or still held) -------------
+      var ownerHex = await callContract(TVX, "owner()", []);
+      var owner = "0x" + ownerHex.slice(ownerHex.length - 40);
+      setText("mOwn", /^0x0+$/.test(owner) ? "renounced" : "held");
 
       // --- On-chain: community vesting -----------------------------
       if (ADDR.test(VESTING)) {

@@ -2,6 +2,9 @@
 
 TIVOX is a community token on the **Base** network that people can actually trade.
 
+> **Launching?** Read [LAUNCH.md](LAUNCH.md) — the step-by-step runbook with the
+> pre-flight checklist.
+
 - Name: TIVOX
 - Symbol: TVX
 - Supply: 1,000,000,000 TVX (fixed at deployment)
