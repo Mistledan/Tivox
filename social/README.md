@@ -7,6 +7,8 @@ templates in `src/content.js`.
 
 **Launching soon?** Use [`LAUNCH-SOCIAL.md`](LAUNCH-SOCIAL.md) — pinned
 announcement, channel rules, teasers, launch copy, and moderation replies.
+Account bios and first-post packs for X/YouTube/TikTok live in
+[`PLATFORMS.md`](PLATFORMS.md).
 
 ## How it works
 
