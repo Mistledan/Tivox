@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TIVOX Whitepaper — $TVX</title>
-<meta name="description" content="The TIVOX whitepaper: token specification, contract architecture, security model, transparency, risks, and roadmap for the $TVX fixed-supply ERC-20 on Sepolia.">
+<meta name="description" content="The TIVOX whitepaper: token specification, distribution, contract architecture, locked liquidity, transparency, and risks for the $TVX mainnet token on Base.">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TIVOX Whitepaper — $TVX">
-<meta property="og:description" content="Full details of the TIVOX fixed-supply ERC-20: specification, architecture, security, and risks.">
+<meta property="og:description" content="1,000,000,000 TVX on Base. 0% tax, no mint, 80% liquidity locked forever. Full spec and disclosure.">
 <meta property="og:image" content="https://mistledan.github.io/Tivox/assets/mascot.png">
 <meta property="og:url" content="https://mistledan.github.io/Tivox/whitepaper.html">
 <meta name="twitter:card" content="summary_large_image">
@@ -20,7 +20,7 @@
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-
+<!-- TVX_MAINNET_CONTRACT_ADDRESS: set WP_ADDRESS in the script at the bottom after launch. -->
 <header class="site-nav">
   <div class="container nav-inner">
     <a class="brand" href="./index.html">
@@ -34,8 +34,8 @@
       <a href="./index.html#faq">FAQ</a>
     </nav>
     <div class="nav-actions">
-      <a class="btn btn-ghost" href="./index.html">Home</a>
-      <a class="btn btn-primary" href="https://t.me/TivoxTVX" target="_blank" rel="noopener">Telegram</a>
+      <a class="btn btn-primary" href="./index.html">Home</a>
+      <a class="btn btn-ghost" href="https://t.me/TivoxTVX" target="_blank" rel="noopener">Telegram</a>
     </div>
   </div>
 </header>
@@ -48,28 +48,30 @@
       <a href="#introduction">1. Introduction</a>
       <a href="#specification">2. Token specification</a>
       <a href="#architecture">3. Contract architecture</a>
-      <a href="#transparency">4. Transparency &amp; verification</a>
-      <a href="#not">5. What TIVOX is not</a>
-      <a href="#network">6. Network &amp; status</a>
-      <a href="#roadmap">7. Roadmap</a>
-      <a href="#risks">8. Risks &amp; disclosures</a>
+      <a href="#distribution">4. Distribution &amp; liquidity</a>
+      <a href="#transparency">5. Transparency &amp; verification</a>
+      <a href="#not">6. What TIVOX is not</a>
+      <a href="#risks">7. Risks &amp; disclosures</a>
+      <a href="#roadmap">8. Roadmap</a>
       <a href="#faq">9. FAQ</a>
       <a href="#links">10. Links</a>
     </aside>
 
     <article class="article">
-      <p class="doc-version">Whitepaper · Version 1.0 · September 2026</p>
+      <p class="doc-version">Whitepaper · Version 2.0 · September 2026</p>
 
       <section id="abstract" class="reveal">
         <h2>Abstract</h2>
-        <p>TIVOX is a fixed-supply ERC-20 token deployed on the Sepolia testnet. It was created to demonstrate a simple idea: a token whose monetary policy cannot be changed after deployment. There is no mint function, no upgrade mechanism, and no privileged control that can alter supply or move user funds. Exactly 1,000,000 TVX exist, and that number can only ever decrease through voluntary burning.</p>
-        <p>TIVOX does not claim to be an investment, a currency, or a store of value. It is a piece of verifiable on-chain engineering, published openly for anyone to inspect.</p>
+        <p>TIVOX is a tradable ERC-20 token deployed on the Base network. It has a total supply of 1,000,000,000 TVX, a 0% transfer tax, and no mint function — the supply can never increase and can only decrease through voluntary burning.</p>
+        <p>80% of the supply is paired with ETH in the Uniswap V2 pool at launch, and the pool's LP tokens are sent to the dead address, permanently locking that liquidity. The remaining 20% goes to a single, publicly-labeled community wallet. There is no privileged control: ownership exists on-chain but grants no ability to mint, pause, freeze, or seize tokens, and it can be renounced at any time.</p>
+        <p>TIVOX is not an investment vehicle and makes no price or return promises. It is a straightforward, transparent, community-owned token built on simple rules that cannot be changed later.</p>
       </section>
 
       <section id="introduction" class="reveal">
         <h2><span class="num">1.</span>Introduction</h2>
         <p>Most token projects are designed around growth narratives: emissions, incentives, treasury control, and the ability to adjust rules later. TIVOX deliberately removes all of that. What remains is a contract that does one thing and does it without ambiguity.</p>
         <p>The project's mascot, the ox, reflects that stance. The ox is not fast and it is not clever. It does not react to market noise. It was pointed in a direction and it keeps going. The token is built the same way: simple rules, stated up front, and impossible to quietly change.</p>
+        <p>This document is the definitive specification for the mainnet token. The earlier Sepolia testnet deployment remains only as a historical engineering artifact and is unrelated to the market.</p>
       </section>
 
       <section id="specification" class="reveal">
@@ -78,14 +80,18 @@
           <tr><th>Name</th><td>TIVOX</td></tr>
           <tr><th>Symbol</th><td>TVX</td></tr>
           <tr><th>Standard</th><td>ERC-20</td></tr>
-          <tr><th>Total supply</th><td>1,000,000 TVX (fixed at deployment)</td></tr>
+          <tr><th>Total supply</th><td>1,000,000,000 TVX (fixed at deployment)</td></tr>
           <tr><th>Decimals</th><td>18</td></tr>
-          <tr><th>Network</th><td>Sepolia testnet (chain ID 11155111)</td></tr>
-          <tr><th>Contract address</th><td><code>0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0</code></td></tr>
+          <tr><th>Network</th><td>Base (chain ID 8453)</td></tr>
+          <tr><th>DEX</th><td>Uniswap V2 (Base)</td></tr>
+          <tr><th>Transfer tax</th><td>0%</td></tr>
+          <tr><th>Contract address</th><td><code id="wp-address">0xTVX_MAINNET_CONTRACT_ADDRESS</code></td></tr>
           <tr><th>Mint function</th><td>None</td></tr>
           <tr><th>Burnable</th><td>Yes — holders may burn their own tokens</td></tr>
+          <tr><th>Liquidity</th><td>80% of supply + ETH, LP tokens burned (permanent lock)</td></tr>
+          <tr><th>Community wallet</th><td>20% of supply, publicly labeled on-chain</td></tr>
           <tr><th>Owner powers</th><td>No minting, no pausing, no freezing, no seizure</td></tr>
-          <tr><th>Source code</th><td>Verified on Sepolia Etherscan</td></tr>
+          <tr><th>Source code</th><td>Verified on BaseScan</td></tr>
         </table>
       </section>
 
@@ -93,52 +99,60 @@
         <h2><span class="num">3.</span>Contract architecture</h2>
         <h3>3.1 Fixed supply</h3>
         <p>The entire supply is minted once in the constructor and assigned to the deploying address. Because the contract contains no mint function, no address — including the owner — can ever create additional tokens. The monetary policy is therefore immutable by construction, not by policy.</p>
-        <h3>3.2 Ownership</h3>
-        <p>TIVOX inherits OpenZeppelin's <code>Ownable</code> so that ownership is explicit and transferable on-chain rather than held by an anonymous deployer. Ownership grants no special powers over the token: it cannot mint, pause transfers, freeze balances, or seize tokens. It exists purely for transparency and future handover. The owner can transfer or renounce ownership at any time.</p>
+        <h3>3.2 Zero tax</h3>
+        <p>The contract is a plain ERC-20 with no fee hooks, no reflections, and no hidden deductions. Every transfer moves the exact amount requested. This keeps trading fair and cheap for everyone.</p>
         <h3>3.3 Burning</h3>
-        <p>Holders can burn their own tokens, permanently removing them from circulation. Because supply can only decrease and never increase, burning is the only supply-side action available to anyone.</p>
-        <h3>3.4 No upgradeability</h3>
+        <p>Holders can burn their own tokens, permanently removing them from circulation. Because the supply can only decrease and never increase, burning is the only supply-side action available to anyone.</p>
+        <h3>3.4 Ownership without power</h3>
+        <p>TIVOX inherits OpenZeppelin's <code>Ownable</code> only so that ownership is explicit and transferable on-chain. Ownership grants no special powers: it cannot mint, pause, freeze, or seize tokens. Ownership can be transferred or renounced at any time, and renouncing it is part of the launch procedure.</p>
+        <h3>3.5 No upgradeability</h3>
         <p>The contract is not a proxy and cannot be upgraded. Once deployed, its logic is final. There is no admin function that can change behavior after the fact.</p>
       </section>
 
+      <section id="distribution" class="reveal">
+        <h2><span class="num">4.</span>Distribution &amp; liquidity</h2>
+        <p>The full 1,000,000,000 TVX is minted to the deployer at construction, then distributed in one transparent step at launch:</p>
+        <table class="spec">
+          <tr><th>Allocation</th><th>Share</th><th>Destination</th></tr>
+          <tr><td>Liquidity pool</td><td>80% (800,000,000 TVX)</td><td>Uniswap V2 pair vs ETH; LP tokens sent to the dead address</td></tr>
+          <tr><td>Community wallet</td><td>20% (200,000,000 TVX)</td><td>Single public wallet for incentives and giveaways</td></tr>
+        </table>
+        <p>Because the LP tokens are burned at creation, the initial liquidity is permanently locked. No mechanism exists to withdraw it. The community wallet is publicly labeled and every one of its transactions is visible on-chain; it holds no privileged access to the contract.</p>
+      </section>
+
       <section id="transparency" class="reveal">
-        <h2><span class="num">4.</span>Transparency &amp; verification</h2>
-        <p>The full source code is published and verified on Etherscan, meaning the deployed bytecode is matched against readable source that anyone can review. The contract address and verification link are listed on the landing page and in the footer of this document.</p>
-        <p>All on-chain activity — transfers, burns, and ownership changes — is publicly visible on Sepolia Etherscan.</p>
+        <h2><span class="num">5.</span>Transparency &amp; verification</h2>
+        <p>The full source code is published and verified on BaseScan, meaning the deployed bytecode is matched against readable source that anyone can review. The contract address, pair address, and community wallet appear on this page and across the project's channels.</p>
+        <p>All on-chain activity — transfers, burns, and ownership changes — is publicly visible. Anyone can independently verify the claimed mechanics rather than trusting this document.</p>
       </section>
 
       <section id="not" class="reveal">
-        <h2><span class="num">5.</span>What TIVOX is not</h2>
+        <h2><span class="num">6.</span>What TIVOX is not</h2>
         <ul>
-          <li>It is not an investment, a security, or a financial product.</li>
-          <li>It is not tradeable. There is no liquidity pool and no exchange listing.</li>
-          <li>It does not have a price, and nothing in this document should be read as a promise of value.</li>
-          <li>It is not deployed on mainnet, and there is no mainnet plan at this time.</li>
+          <li>It is not a security, a fund, or a regulated financial product.</li>
+          <li>Nothing here is investment, legal, or tax advice.</li>
+          <li>It makes no promise of value, price, or returns. Crypto markets are volatile and most tokens lose value.</li>
           <li>It is not a business, a company, or a legal entity.</li>
-        </ul>
-      </section>
-
-      <section id="network" class="reveal">
-        <h2><span class="num">6.</span>Network &amp; status</h2>
-        <p>TIVOX is live on the Sepolia testnet. Testnet tokens have no monetary value and exist only for development and demonstration. As a result, there is intentionally no liquidity, no market, and no way to exchange TVX for anything.</p>
-      </section>
-
-      <section id="roadmap" class="reveal">
-        <h2><span class="num">7.</span>Roadmap</h2>
-        <ul>
-          <li><strong>Complete</strong> — Contract written, tested, deployed to Sepolia, and verified on Etherscan.</li>
-          <li><strong>Complete</strong> — Public landing page and open-source repository.</li>
-          <li><strong>Current</strong> — Documentation, transparency, and community communication.</li>
-          <li><strong>Under consideration</strong> — Further testnet tooling and educational material. No mainnet deployment is planned.</li>
+          <li>No one will ever DM you about an airdrop, an exchange, or require payment. Any such contact is a scam. Only the official contract address on this page is real.</li>
         </ul>
       </section>
 
       <section id="risks" class="reveal">
-        <h2><span class="num">8.</span>Risks &amp; disclosures</h2>
+        <h2><span class="num">7.</span>Risks &amp; disclosures</h2>
         <div class="notice">
-          TIVOX is an experimental testnet token provided "as is", with no warranty and no expectation of value. Nothing here is financial advice. Do not send money to anyone offering to sell TVX — such offers are scams. If you interact with the contract, you do so entirely at your own risk, and you are responsible for understanding what it does.
+          TIVOX is provided "as is", with no warranty and no expectation of returns. Smart contracts can contain bugs despite review and testing. Early pools are small: price impact, slippage, and front-running/MEV are real risks. Trading is entirely at your own risk and you are responsible for understanding what you trade.
         </div>
-        <p>Smart contracts can contain bugs despite review and testing. Testnet networks can be reset, deprecated, or interrupted. The project may be discontinued at any time.</p>
+        <p>Additional risks include: extreme volatility common to low-cap tokens; regulatory uncertainty around tokens and decentralized markets; and the possibility that the project is discontinued. The testnet deployment from the project's early development is a separate artifact and has nothing to do with the market.</p>
+      </section>
+
+      <section id="roadmap" class="reveal">
+        <h2><span class="num">8.</span>Roadmap</h2>
+        <ul>
+          <li><strong>Complete</strong> — Contract written, tested, and deployed on Base with liquidity locked and the source verified.</li>
+          <li><strong>Launch</strong> — Public landing page, open-source repository, and live trading on Uniswap.</li>
+          <li><strong>Current</strong> — Community growth, documentation, and chart listings (DexScreener / Dextools index pairs automatically).</li>
+          <li><strong>Under consideration</strong> — Additional community tools and incentives funded only by the community wallet.</li>
+        </ul>
       </section>
 
       <section id="faq" class="reveal">
@@ -146,23 +160,23 @@
         <div class="faq-list">
           <details class="faq" open>
             <summary>Can the supply ever increase?</summary>
-            <div class="answer">No. There is no mint function, and the total supply is fixed in the constructor.</div>
+            <div class="answer">No. There is no mint function, and the total supply is fixed at deployment.</div>
           </details>
           <details class="faq">
-            <summary>Who can mint?</summary>
-            <div class="answer">No one. The contract has no mint function at all.</div>
+            <summary>Is there a tax?</summary>
+            <div class="answer">No. TIVOX has a 0% transfer tax. Nothing is deducted from trades.</div>
+          </details>
+          <details class="faq">
+            <summary>Is liquidity locked?</summary>
+            <div class="answer">Yes. The LP tokens are burned to the dead address at launch, which makes them permanently unspendable.</div>
+          </details>
+          <details class="faq">
+            <summary>Where can I buy TVX?</summary>
+            <div class="answer">On Uniswap V2 over the Base network. Always verify the contract address first.</div>
           </details>
           <details class="faq">
             <summary>Can the owner take my tokens?</summary>
-            <div class="answer">No. Ownership grants no ability to move, freeze, or seize tokens.</div>
-          </details>
-          <details class="faq">
-            <summary>Is TVX for sale?</summary>
-            <div class="answer">No. It is not listed anywhere and has no liquidity. It cannot be bought or sold.</div>
-          </details>
-          <details class="faq">
-            <summary>Will there be a mainnet version?</summary>
-            <div class="answer">There is no mainnet plan at this time.</div>
+            <div class="answer">No. Ownership grants no ability to move, freeze, or seize tokens, and it is being renounced at launch.</div>
           </details>
         </div>
       </section>
@@ -171,7 +185,8 @@
         <h2><span class="num">10.</span>Links</h2>
         <ul>
           <li>Website: <a href="./index.html">TIVOX</a></li>
-          <li>Contract: <a href="https://sepolia.etherscan.io/address/0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0#code" target="_blank" rel="noopener">Sepolia Etherscan</a></li>
+          <li>Buy on Uniswap: <a id="wp-buy" href="./index.html" target="_blank" rel="noopener">Uniswap V2 — Base</a></li>
+          <li>Contract: <a id="wp-basescan" href="./index.html" target="_blank" rel="noopener">BaseScan</a></li>
           <li>Source repository: <a href="https://github.com/Mistledan/Tivox" target="_blank" rel="noopener">github.com/Mistledan/Tivox</a></li>
           <li>Community: <a href="https://t.me/TivoxTVX" target="_blank" rel="noopener">Telegram</a></li>
         </ul>
@@ -184,10 +199,28 @@
   <div class="container">
     <div class="footer-bottom" style="border-top:0; padding-top:0;">
       <span>© 2026 TIVOX. Independent project, not a company.</span>
-      <span>TIVOX is not an investment. It has no monetary value and is not tradeable.</span>
+      <span>Not financial advice. Trade at your own risk.</span>
     </div>
   </div>
 </footer>
+
+<script>
+(function () {
+  var WP_ADDRESS = '0xTVX_MAINNET_CONTRACT_ADDRESS';
+  var IS_LIVE = /^0x[a-fA-F0-9]{40}$/.test(WP_ADDRESS);
+  var el = document.getElementById('wp-address');
+  if (el) el.textContent = WP_ADDRESS;
+
+  if (IS_LIVE) {
+    var basescan = 'https://basescan.org/token/' + WP_ADDRESS;
+    var pair = 'https://app.uniswap.org/swap?chain=base&outputCurrency=' + WP_ADDRESS;
+    var bs = document.getElementById('wp-basescan');
+    if (bs) bs.href = basescan;
+    var buy = document.getElementById('wp-buy');
+    if (buy) buy.href = pair;
+  }
+})();
+</script>
 
 <script>
 (function () {

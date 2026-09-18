@@ -78,6 +78,7 @@ run the workflow manually once with **dry_run = true** to confirm output.
 
 ## Content rules
 
-The generator is instructed to never promise returns and always disclose that
-TIVOX is an untraded Sepolia testnet token. Keep it that way — automated
-financial-promotion language gets accounts banned fast.
+The generator is instructed to never promise or imply returns, never guarantee
+price, and always be honest about volatility while pointing to the official
+contract address. Keep it that way — automated financial-promotion language gets
+accounts banned fast.

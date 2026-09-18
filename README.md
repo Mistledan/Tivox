@@ -1,40 +1,47 @@
 # TIVOX Token (TVX)
 
-TIVOX is a fixed-supply ERC-20 token for Sepolia testing.
+TIVOX is a community token on the **Base** network that people can actually trade.
 
 - Name: TIVOX
 - Symbol: TVX
-- Supply: 1,000,000 TVX
+- Supply: 1,000,000,000 TVX (fixed at deployment)
 - Decimals: 18
-- Features: burnable, ownable, no post-deploy minting
+- Network: Base (chain ID 8453)
+- DEX: Uniswap V2 (Base)
+- Transfer tax: 0%
+- Features: burnable, ownable (no privileged powers), no post-deploy minting
+- Distribution: 80% to the Uniswap pool (LP burned = locked forever), 20% to a public community wallet
 
 ## Project structure
 
 ```
-contracts/TIVOX.sol        the token contract
-scripts/                   deploy + transfer helpers
-test/                      Hardhat test suite
-web/                       the static site published to GitHub Pages
-  index.html               landing page (share this)
-  whitepaper.html          full project whitepaper
-  styles.css               shared site stylesheet
-  404.html                 not-found page
-  assets/mascot.png        brand image (also used for og:image / favicon)
-social/                    social media automation (Telegram, X, YouTube, TikTok)
-.github/workflows/         CI + GitHub Pages deploy + social scheduler
+contracts/TVX.sol             mainnet token contract (1B supply)
+contracts/TIVOX.sol           legacy Sepolia testnet contract (1M supply, historical only)
+scripts/                      deploy + launch helpers
+test/                         Hardhat test suite (TVX + legacy TIVOX)
+web/                          the static site published to GitHub Pages
+  index.html                  landing page with Buy links and contract card
+  whitepaper.html             full project whitepaper
+  styles.css                  shared site stylesheet
+  404.html                    not-found page
+  assets/mascot.png           brand image (also used for og:image / favicon)
+social/                       social media automation (Telegram, X, YouTube, TikTok)
+.github/workflows/            CI + GitHub Pages deploy + social scheduler
 ```
 
 ## Design notes
 
-- **Fixed supply.** `TOTAL_SUPPLY` is a constant and the full amount is minted
-  once in the constructor. There is no `mint` function, so no address — not even
-  the owner — can create more TVX.
-- **Why `Ownable`?** The token inherits OpenZeppelin `Ownable` so ownership is
-  explicit and transferable on-chain (a transparent, known address rather than an
-  anonymous deployer). It does **not** grant any privileged token powers: no
-  minting, no pausing, no freezing, no seizure. If you would rather remove even
-  the appearance of privilege, delete `Ownable` and the constructor argument before
-  any deployment.
+- **Fixed supply.** `TOTAL_SUPPLY` is a constant and the full 1,000,000,000 TVX is
+  minted once in the constructor. There is no `mint` function, so no address — not
+  even the owner — can create more TVX.
+- **0% tax.** A plain ERC-20 with no fee hooks, no reflections, and no hidden
+  deductions. Transfers move exactly the amount requested.
+- **Locked liquidity.** At launch, 80% of the supply is paired with ETH on Uniswap
+  V2 and the LP tokens are sent to the dead address. That liquidity can never be
+  pulled.
+- **Why `Ownable`?** Ownership is explicit and transferable on-chain and grants no
+  privileged powers (no minting, pausing, freezing, seizure). It is renounced as
+  part of the launch procedure for maximum transparency.
 - **Burnable.** Holders can burn their own tokens; supply can only ever decrease.
 
 ## 1. Install
@@ -43,9 +50,7 @@ social/                    social media automation (Telegram, X, YouTube, TikTok
 npm install
 ```
 
-## 2. Configure Sepolia
-
-Copy the example env file:
+## 2. Configure
 
 ```bash
 cp .env.example .env
@@ -53,12 +58,17 @@ cp .env.example .env
 
 Fill in:
 
-- `SEPOLIA_RPC_URL`: a full HTTPS Sepolia RPC URL, such as an Alchemy or Infura URL
-- `PRIVATE_KEY`: a test wallet private key, 64 hex characters, with or without `0x`
-- `ETHERSCAN_API_KEY`: your Etherscan API key
+- `BASE_RPC_URL`: a full HTTPS Base RPC URL (e.g. `https://mainnet.base.org` or an
+  Alchemy/Infura endpoint)
+- `PRIVATE_KEY`: the wallet that will deploy the token. **On Base this must hold
+  real ETH, bridged from Ethereum.** Never use a key you are not comfortable using
+  on-chain — and never commit `.env`.
+- `ETHERSCAN_API_KEY`: your Etherscan API key (Basescan uses the same account)
+- `COMMUNITY_WALLET`: the address that receives the 20% community allocation
+- `LP_ETH`: how much ETH (in ETH units, e.g. `0.5`) to pair with the tokens
 
-Use a test wallet only. Never put a main-wallet private key in this project.
-`.env` is gitignored and must never be committed.
+Optional overrides (defaults shown): `LP_PERCENT=80`, `COMMUNITY_PERCENT=20`,
+`RENOUNCE_OWNERSHIP=true`, `TVX_CONTRACT_ADDRESS=`.
 
 ## 3. Compile and test locally
 
@@ -67,100 +77,83 @@ npm run compile
 npm test
 ```
 
-## 4. Deploy to Sepolia
+## 4. Launch on Base (deploy + lock liquidity + community wallet)
 
-Make sure the deployer wallet has Sepolia ETH, then run:
-
-```bash
-npm run deploy:sepolia
-```
-
-The script prints the deployed contract address and the exact verify command.
-
-## 5. Verify the contract on Etherscan
+The wallet must hold real ETH on Base. Then:
 
 ```bash
-npm run verify:sepolia -- <CONTRACT_ADDRESS> <INITIAL_OWNER_ADDRESS>
+npm run launch:base
 ```
 
-Example:
+The script, in order:
+
+1. Deploys `TVX` (1,000,000,000 supply to the deployer)
+2. Approves Uniswap V2 and adds liquidity: `LP_PERCENT`% of supply + `LP_ETH` worth
+   of ETH, with the LP tokens sent to the dead address (permanent lock)
+3. Sends `COMMUNITY_PERCENT`% to `COMMUNITY_WALLET`
+4. Renounces ownership if `RENOUNCE_OWNERSHIP=true`
+
+It prints the token address, pool/pair address, and the Uniswap + BaseScan links.
+
+> Deploy-only (no pool, no allocations): `npm run deploy:base`
+
+## 5. Verify the contract on BaseScan
 
 ```bash
-npm run verify:sepolia -- 0xYourContract 0xYourWallet
+npm run verify:base -- <TVX_CONTRACT_ADDRESS>
 ```
 
-## 6. Import/view TIVOX in the test wallet
+## 6. Point the website at the live token
 
-In MetaMask on Sepolia:
+After launching, paste the TVX address into **two places**:
 
-1. Select Import tokens.
-2. Paste the deployed TIVOX contract address.
-3. Confirm symbol `TVX` and decimals `18`.
+- `web/index.html` — the `TVX_ADDRESS` constant in the script at the bottom
+- `web/whitepaper.html` — the `WP_ADDRESS` constant in the script at the bottom
 
-## 7. Send test tokens between addresses
+Once a real 0x address is set, the site automatically wires the Buy buttons to
+Uniswap, the contract card to BaseScan, and the footer pills to the token page.
 
-You can send from MetaMask, from the web tools page, or with the script.
-
-For the script, add these to `.env`:
-
-```bash
-TIVOX_CONTRACT_ADDRESS=0xYourContract
-TRANSFER_TO=0xRecipient
-TRANSFER_AMOUNT=10
-```
-
-Then run:
-
-```bash
-npm run transfer:sepolia
-```
-
-## 8. The website
+## 7. The website
 
 The site is fully static — no JavaScript dependencies, no external APIs.
 
-- `web/index.html` is the public landing page: overview, token facts, contract
-  address, principles, and FAQ.
-- `web/whitepaper.html` documents the token specification, contract architecture,
-  security model, transparency, and risks.
+- `web/index.html` is the landing page: overview, token facts, contract card,
+  principles, and FAQ.
+- `web/whitepaper.html` documents the specification, distribution, architecture,
+  locked liquidity, transparency, and risks.
 - `web/styles.css` is the shared stylesheet used by every page.
 
-Open the files directly in a browser, or serve the folder locally:
+Browse locally:
 
 ```bash
 npx serve web
 ```
 
-## 9. Deployment (GitHub Pages)
+## 8. Deployment (GitHub Pages)
 
 The `Deploy site` workflow publishes the `web/` folder to GitHub Pages on every
-push to `master`/`main`. Enable it once under **Settings → Pages → Build and
-deployment → Source: GitHub Actions**.
+push. The site is live at https://mistledan.github.io/Tivox/.
 
-The site is live at https://mistledan.github.io/Tivox/. The `canonical` and
-Open Graph tags in `web/index.html` and `web/whitepaper.html` already point at
-that URL; update them if the site ever moves.
-
-## 10. CI
+## 9. CI
 
 `.github/workflows/ci.yml` compiles and tests the contracts on every push and pull
-request, and runs a JavaScript syntax check on the site scripts.
+request, and checks that all required site files exist.
 
-## 11. Social media automation
+## 10. Social media automation
 
 `social/` is a dependency-free Node package that posts rotating TIVOX content to
 Telegram, X, YouTube, and TikTok. See [`social/README.md`](social/README.md) for
-setup. Preview it locally without any API keys:
+setup. Preview locally:
 
 ```bash
 node social/src/index.js --dry-run
 ```
 
-`.github/workflows/social.yml` runs it on a 6-hour schedule. Add the platform
-credentials as repository secrets, then trigger it once manually with
-**dry_run = true** to confirm the output.
+`.github/workflows/social.yml` runs it on a 6-hour schedule with platform
+credentials stored as repository secrets.
 
-## Current local verification
+## Legacy testnet (historical)
 
-The project compiles and the local test suite covers metadata, fixed supply,
-ownership, transfers, and burning.
+`contracts/TIVOX.sol` is the original 1M-supply token deployed on the Sepolia
+testnet during development. It was a proof-of-work demo and is unrelated to the
+market. It remains in the repo only as a historical engineering artifact.

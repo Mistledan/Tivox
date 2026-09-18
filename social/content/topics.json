@@ -1,10 +1,12 @@
 [
-  { "angle": "steady", "guidance": "the ox keeps pulling regardless of market noise" },
-  { "angle": "supply", "guidance": "there is no mint function; 1,000,000 forever; holders can burn" },
-  { "angle": "verified", "guidance": "source verified on Etherscan; nothing hidden" },
-  { "angle": "nopanic", "guidance": "volatility versus the ox's calm" },
-  { "angle": "build", "guidance": "building in public on testnet with real tests; shipping over promising" },
-  { "angle": "honesty", "guidance": "it is a Sepolia testnet token, not tradeable and not for sale; beware scams" },
-  { "angle": "faq", "guidance": "answer a common question, e.g. can anyone mint, is it for sale" },
-  { "angle": "community", "guidance": "invite people to follow the build" }
+  { "angle": "steady", "guidance": "the ox keeps pulling regardless of market noise; 1,000,000,000 TVX fixed supply" },
+  { "angle": "supply", "guidance": "there is no mint function; 1,000,000,000 forever; holders can burn to reduce supply" },
+  { "angle": "verified", "guidance": "source verified on BaseScan; contract address published; nothing hidden" },
+  { "angle": "liquidity", "guidance": "80% of supply in the Uniswap V2 pool with the LP burned to the dead address; permanently locked" },
+  { "angle": "trade", "guidance": "TVX trades on Uniswap V2 over Base with 0% tax; remind people to verify the address" },
+  { "angle": "nopanic", "guidance": "volatility versus the ox's calm; no price promises" },
+  { "angle": "build", "guidance": "deployed on Base with real tests and locked liquidity; shipping over promising" },
+  { "angle": "honesty", "guidance": "early pools are small and volatile; no one will ever DM asking for money" },
+  { "angle": "faq", "guidance": "answer a common question, e.g. can anyone mint, where does it trade" },
+  { "angle": "community", "guidance": "invite people to the Telegram community" }
 ]

@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TIVOX ($TVX) — The ox doesn't panic</title>
-<meta name="description" content="TIVOX ($TVX) is a fixed-supply ERC-20 token: 1,000,000 forever, no mint function, source verified on Etherscan. Slow, stubborn, and impossible to move.">
+<meta name="description" content="TIVOX ($TVX) is a tradable ERC-20 on Base: 1,000,000,000 supply, 0% tax, no mint function, 80% of liquidity locked forever. Source verified on BaseScan.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="TIVOX ($TVX) — The ox doesn't panic">
-<meta property="og:description" content="Fixed supply. No mint function. Verified on-chain. The ox just keeps pulling.">
+<meta property="og:description" content="1,000,000,000 TVX. 0% tax. 80% LP locked forever. Trade it on Uniswap.">
 <meta property="og:image" content="https://mistledan.github.io/Tivox/assets/mascot.png">
 <meta property="og:url" content="https://mistledan.github.io/Tivox/">
 <meta name="twitter:card" content="summary_large_image">
@@ -20,6 +20,7 @@
 <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
+<!-- TVX_MAINNET_CONTRACT_ADDRESS: set TVX_ADDRESS in the script at the bottom after the contract is launched on Base. -->
 <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
 <header class="site-nav">
@@ -45,14 +46,14 @@
   <section class="hero">
     <div class="container hero-grid">
       <div class="hero-copy">
-        <span class="eyebrow">ERC-20 · Sepolia Testnet</span>
+        <span class="eyebrow">ERC-20 · Live on Base</span>
         <h1>The ox <span class="accent">doesn't panic.</span></h1>
-        <p class="lede">TIVOX is a fixed-supply token with no mint function, no inflation, and no owner backdoor. Exactly 1,000,000 TVX exist — and that can never change.</p>
+        <p class="lede">TIVOX is a real, tradable token: 1,000,000,000 TVX on Base — 0% tax, no mint function, and 80% of the supply locked in the Uniswap pool with the LP burned forever.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="./whitepaper.html">Read the Whitepaper</a>
-          <a class="btn btn-ghost" href="https://sepolia.etherscan.io/address/0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0#code" target="_blank" rel="noopener">View on Etherscan</a>
+          <a class="btn btn-primary" id="link-buy" href="./whitepaper.html">Buy on Uniswap</a>
+          <a class="btn btn-ghost" href="./whitepaper.html">Read the Whitepaper</a>
         </div>
-        <p class="hero-note">Not an investment. Not tradeable. A small, honest piece of on-chain engineering.</p>
+        <p class="hero-note">Not financial advice. Markets are volatile — trade responsibly.</p>
       </div>
       <div class="hero-art">
         <img src="./assets/mascot.png" alt="TIVOX ox mascot">
@@ -63,10 +64,10 @@
   <div class="marquee" aria-hidden="true">
     <div class="marquee-track">
       <div class="marquee-group">
-        <span>TO THE MOON (EVENTUALLY)</span><span>FIXED SUPPLY</span><span>THE OX DOESN'T PANIC</span><span>VERIFIED ON ETHERSCAN</span><span>STILL PULLING</span><span>1,000,000 TVX FOREVER</span><span>NOBODY MOVES THE OX</span><span>NO MINT FUNCTION</span><span>ZERO NONSENSE</span><span>HOLD TIGHT</span>
+        <span>1,000,000,000 TVX</span><span>TRADE ON UNISWAP</span><span>0% TAX</span><span>NO MINT FUNCTION</span><span>LP LOCKED FOREVER</span><span>BASE L2</span><span>THE OX DOESN'T PANIC</span><span>STILL PULLING</span><span>HOLD TIGHT</span><span>ZERO NONSENSE</span>
       </div>
       <div class="marquee-group">
-        <span>TO THE MOON (EVENTUALLY)</span><span>FIXED SUPPLY</span><span>THE OX DOESN'T PANIC</span><span>VERIFIED ON ETHERSCAN</span><span>STILL PULLING</span><span>1,000,000 TVX FOREVER</span><span>NOBODY MOVES THE OX</span><span>NO MINT FUNCTION</span><span>ZERO NONSENSE</span><span>HOLD TIGHT</span>
+        <span>1,000,000,000 TVX</span><span>TRADE ON UNISWAP</span><span>0% TAX</span><span>NO MINT FUNCTION</span><span>LP LOCKED FOREVER</span><span>BASE L2</span><span>THE OX DOESN'T PANIC</span><span>STILL PULLING</span><span>HOLD TIGHT</span><span>ZERO NONSENSE</span>
       </div>
     </div>
   </div>
@@ -81,18 +82,18 @@
       <div class="card-grid">
         <article class="card reveal">
           <div class="icon">🐂</div>
-          <h3>A fixed supply</h3>
-          <p>Exactly 1,000,000 TVX were created at deployment. There is no mint function anywhere in the contract, so no address — including the owner — can ever create more.</p>
+          <h3>1 billion supply</h3>
+          <p>Exactly 1,000,000,000 TVX were created at deployment. There is no mint function anywhere in the contract, so no address — including the owner — can ever create more.</p>
         </article>
         <article class="card reveal">
           <div class="icon">🔍</div>
           <h3>Open and verified</h3>
-          <p>The full source code is verified on Etherscan. No hidden logic, no upgradeable proxy, no private backdoor. Anyone can read exactly what the contract does.</p>
+          <p>The full source code is verified on BaseScan. No hidden logic, no upgradeable proxy, no private backdoor. Anyone can read exactly what the contract does.</p>
         </article>
         <article class="card reveal">
           <div class="icon">🛡️</div>
-          <h3>No promises</h3>
-          <p>TIVOX is not an investment product. There is no liquidity pool, no exchange listing, and no price. It exists as a small, honest piece of on-chain engineering.</p>
+          <h3>Liquidity locked</h3>
+          <p>80% of the supply is paired with ETH in the Uniswap pool, and the LP tokens are burned to the dead address. That liquidity can never be pulled.</p>
         </article>
       </div>
     </div>
@@ -101,14 +102,14 @@
   <section class="section" id="token">
     <div class="container">
       <div class="section-head reveal">
-        <span class="eyebrow testnet">Sepolia Testnet</span>
+        <span class="eyebrow">Base · Uniswap V2</span>
         <h2>Token details</h2>
-        <p>A standard ERC-20 with an unusual property: the monetary policy cannot change. Burn your own tokens if you like — the supply can only ever shrink.</p>
+        <p>1,000,000,000 TVX. No mint. 0% tax. The split that keeps it honest: 80% permanently locked in the pool, 20% in a public community wallet.</p>
       </div>
 
       <div class="spec-grid reveal">
         <div class="spec-item">
-          <div class="value">1,000,000</div>
+          <div class="value">1,000,000,000</div>
           <div class="label">Total Supply</div>
         </div>
         <div class="spec-item">
@@ -123,19 +124,35 @@
           <div class="value">ERC-20</div>
           <div class="label">Standard</div>
         </div>
+        <div class="spec-item">
+          <div class="value">Base</div>
+          <div class="label">Network</div>
+        </div>
+        <div class="spec-item">
+          <div class="value">0%</div>
+          <div class="label">Transfer Tax</div>
+        </div>
+        <div class="spec-item">
+          <div class="value">80%</div>
+          <div class="label">LP Locked (burned)</div>
+        </div>
+        <div class="spec-item">
+          <div class="value">20%</div>
+          <div class="label">Community Wallet</div>
+        </div>
       </div>
 
       <div class="contract-card reveal" style="margin-top:28px;">
         <div>
           <h3>Contract address</h3>
-          <p class="hint">Tap the address to copy it. Always verify before interacting.</p>
+          <p class="hint">Always verify the address on BaseScan before interacting.</p>
           <div class="address" id="addressBox" role="button" tabindex="0" aria-label="Copy TIVOX contract address">
-            <code>0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0</code>
+            <code id="addressValue">0xTVX_MAINNET_CONTRACT_ADDRESS</code>
             <span class="copy-btn" id="copyLabel">Copy</span>
           </div>
         </div>
         <div class="contract-actions">
-          <a class="btn btn-primary" href="https://sepolia.etherscan.io/address/0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0#code" target="_blank" rel="noopener">Verified source</a>
+          <a class="btn btn-primary" id="link-verified" href="./whitepaper.html" target="_blank" rel="noopener">Verified source</a>
           <a class="btn btn-ghost" href="./whitepaper.html">Read whitepaper</a>
         </div>
       </div>
@@ -153,17 +170,17 @@
         <article class="card reveal">
           <div class="icon">∞</div>
           <h3>Fixed supply</h3>
-          <p>No mint function. Exactly 1,000,000 TVX exist, and the number can only decrease through voluntary burning.</p>
+          <p>1,000,000,000 TVX minted once. There is no mint function, so the number can only decrease through voluntary burning.</p>
         </article>
         <article class="card reveal">
           <div class="icon">✓</div>
-          <h3>Transparent</h3>
-          <p>The complete source is verified on Etherscan. There is no upgrade mechanism and no admin function that can change behavior later.</p>
+          <h3>Locked liquidity</h3>
+          <p>80% of the supply sits in the Uniswap pool and the LP tokens are burned to the dead address. It is a permanent lock, not a promise.</p>
         </article>
         <article class="card reveal">
           <div class="icon">🔒</div>
           <h3>No privileged control</h3>
-          <p>Ownership grants no ability to mint, pause, freeze, or seize tokens. It exists for transparency and handover only.</p>
+          <p>No mint, no pause, no freeze, no seizure. Ownership is explicit and transferable on-chain, and can be renounced at any time.</p>
         </article>
       </div>
     </div>
@@ -181,20 +198,24 @@
           <div class="answer">No. There is no mint function, and the total supply is fixed at deployment. Holders may burn their own tokens, so the supply can only decrease.</div>
         </details>
         <details class="faq reveal">
-          <summary>Is it on mainnet?</summary>
-          <div class="answer">No. TIVOX currently lives on the Sepolia testnet for development and demonstration. A mainnet deployment has not been planned.</div>
+          <summary>Where does TVX trade?</summary>
+          <div class="answer">On Uniswap V2 over Base. The liquidity is 80% of the total supply paired with ETH, and the LP tokens are burned, so the pool can never be drained by the team.</div>
         </details>
         <details class="faq reveal">
-          <summary>Can I buy TVX?</summary>
-          <div class="answer">No. There is no liquidity pool and no exchange listing. TVX is not tradeable, and anyone asking you to pay for it is a scam.</div>
+          <summary>Is there a buy or sell tax?</summary>
+          <div class="answer">No. TIVOX has 0% transfer tax. Sending, buying, and selling cost nothing extra — you keep every token you buy.</div>
+        </details>
+        <details class="faq reveal">
+          <summary>Is the liquidity locked?</summary>
+          <div class="answer">Yes — permanently. The pool's LP tokens are sent to the dead address at launch, which makes them unspendable forever. Check the pair on BaseScan if you want to verify.</div>
+        </details>
+        <details class="faq reveal">
+          <summary>What is the community wallet?</summary>
+          <div class="answer">20% of the supply is sent to a single, publicly-labeled wallet at launch, used only for community incentives and giveaways. Its address and every transaction are visible on-chain.</div>
         </details>
         <details class="faq reveal">
           <summary>Who controls the contract?</summary>
-          <div class="answer">Ownership is explicit and transferable on-chain, but it grants no special powers: no minting, no pausing, no freezing, and no ability to take tokens from anyone.</div>
-        </details>
-        <details class="faq reveal">
-          <summary>Where can I read the full details?</summary>
-          <div class="answer">The <a href="./whitepaper.html">whitepaper</a> documents the token specification, contract architecture, security model, transparency, risks, and roadmap.</div>
+          <div class="answer">No one has special powers: there is no minting, pausing, freezing, or seizure. Ownership is on-chain and can be renounced. The contract itself just cannot do those things.</div>
         </details>
       </div>
     </div>
@@ -209,11 +230,11 @@
           <img src="./assets/mascot.png" alt="">
           TIVOX
         </a>
-        <p>An independent ERC-20 token project. Slow, stubborn, fixed at 1,000,000.</p>
+        <p>An independent ERC-20 token project on Base. 1,000,000,000 TVX, 0% tax, and 80% of liquidity locked forever.</p>
         <div style="margin-top:18px;">
           <a class="social-pill" href="https://t.me/TivoxTVX" target="_blank" rel="noopener">Telegram</a>
           <a class="social-pill" href="https://github.com/Mistledan/Tivox" target="_blank" rel="noopener">GitHub</a>
-          <span class="social-pill pending">X — soon</span>
+          <a class="social-pill" id="link-basescan" href="./whitepaper.html" target="_blank" rel="noopener">BaseScan</a>
         </div>
       </div>
       <div class="footer-col">
@@ -226,22 +247,27 @@
       <div class="footer-col">
         <h4>Resources</h4>
         <a href="./whitepaper.html">Whitepaper</a>
-        <a href="https://sepolia.etherscan.io/address/0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0#code" target="_blank" rel="noopener">Etherscan</a>
+        <a id="link-basescan2" href="./whitepaper.html" target="_blank" rel="noopener">BaseScan</a>
         <a href="https://github.com/Mistledan/Tivox" target="_blank" rel="noopener">Source code</a>
+        <a id="link-buy2" href="./whitepaper.html" target="_blank" rel="noopener">Buy on Uniswap</a>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 TIVOX. Independent project, not a company.</span>
-      <span>TIVOX is not an investment. It has no monetary value and is not tradeable.</span>
+      <span>Not financial advice. Trade at your own risk.</span>
     </div>
   </div>
 </footer>
 
 <script>
 (function () {
+  // TVX mainnet contract address. Fill this in after "npm run launch:base" prints it.
+  var TVX_ADDRESS = '0xTVX_MAINNET_CONTRACT_ADDRESS';
+  var IS_LIVE = /^0x[a-fA-F0-9]{40}$/.test(TVX_ADDRESS);
+
   var box = document.getElementById('addressBox');
   var label = document.getElementById('copyLabel');
-  var address = '0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0';
+  var address = TVX_ADDRESS;
   var reset;
 
   function done(ok) {
@@ -287,6 +313,29 @@
       }
     });
   }
+
+  (function wireLinks() {
+    document.getElementById('addressValue').textContent = TVX_ADDRESS;
+    if (!IS_LIVE) {
+      // Pre-launch: point CTAs at the community while the address is pending.
+      document.getElementById('link-buy').href = 'https://t.me/TivoxTVX';
+      document.getElementById('link-buy').textContent = 'Join Telegram';
+      var buy2 = document.getElementById('link-buy2');
+      if (buy2) buy2.href = 'https://t.me/TivoxTVX';
+    } else {
+      var pair = 'https://app.uniswap.org/swap?chain=base&outputCurrency=' + TVX_ADDRESS;
+      var basescan = 'https://basescan.org/token/' + TVX_ADDRESS;
+      var code = 'https://basescan.org/address/' + TVX_ADDRESS + '#code';
+      document.getElementById('link-buy').href = pair;
+      document.getElementById('link-verified').href = code;
+      var sc1 = document.getElementById('link-basescan');
+      if (sc1) sc1.href = basescan;
+      var sc2 = document.getElementById('link-basescan2');
+      if (sc2) sc2.href = basescan;
+      var buy2 = document.getElementById('link-buy2');
+      if (buy2) buy2.href = pair;
+    }
+  })();
 })();
 </script>
 
