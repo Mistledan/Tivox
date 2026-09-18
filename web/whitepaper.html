@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIVOX Whitepaper — $TVX</title>
+<meta name="description" content="The TIVOX whitepaper: token specification, contract architecture, security model, transparency, risks, and roadmap for the $TVX fixed-supply ERC-20 on Sepolia.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TIVOX Whitepaper — $TVX">
+<meta property="og:description" content="Full details of the TIVOX fixed-supply ERC-20: specification, architecture, security, and risks.">
+<meta property="og:image" content="https://mistledan.github.io/Tivox/assets/mascot.png">
+<meta property="og:url" content="https://mistledan.github.io/Tivox/whitepaper.html">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://mistledan.github.io/Tivox/whitepaper.html">
+<link rel="icon" href="./assets/mascot.png">
+<link rel="stylesheet" href="./styles.css">
+</head>
+<body>
+
+<header class="hero">
+  <h1 class="logo" style="font-size:3.2rem;">TIVOX</h1>
+  <p class="tagline">Whitepaper</p>
+  <div class="ticker">$TVX</div>
+  <div><span class="network-tag">SEPOLIA TESTNET</span></div>
+</header>
+
+<section class="doc">
+  <p class="muted">Version 1.0 — September 2026</p>
+  <h2>Abstract</h2>
+  <p>TIVOX is a fixed-supply ERC-20 token deployed on the Sepolia testnet. It was created to demonstrate a simple idea: a token whose monetary policy cannot be changed after deployment. There is no mint function, no upgrade mechanism, and no privileged control that can alter supply or move user funds. Exactly 1,000,000 TVX exist, and that number can only ever decrease through voluntary burning.</p>
+  <p>TIVOX does not claim to be an investment, a currency, or a store of value. It is a piece of verifiable on-chain engineering, published openly for anyone to inspect.</p>
+</section>
+
+<section class="doc">
+  <h2>1. Introduction</h2>
+  <p>Most token projects are designed around growth narratives: emissions, incentives, treasury control, and the ability to adjust rules later. TIVOX deliberately removes all of that. What remains is a contract that does one thing and does it without ambiguity.</p>
+  <p>The project's mascot, the ox, reflects that stance. The ox is not fast and it is not clever. It does not react to market noise. It was pointed in a direction and it keeps going. The token is built the same way: simple rules, stated up front, and impossible to quietly change.</p>
+</section>
+
+<section class="doc">
+  <h2>2. Token specification</h2>
+  <table class="spec">
+    <tr><th>Name</th><td>TIVOX</td></tr>
+    <tr><th>Symbol</th><td>TVX</td></tr>
+    <tr><th>Standard</th><td>ERC-20</td></tr>
+    <tr><th>Total supply</th><td>1,000,000 TVX (fixed at deployment)</td></tr>
+    <tr><th>Decimals</th><td>18</td></tr>
+    <tr><th>Network</th><td>Sepolia testnet (chain ID 11155111)</td></tr>
+    <tr><th>Contract address</th><td><code>0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0</code></td></tr>
+    <tr><th>Mint function</th><td>None</td></tr>
+    <tr><th>Burnable</th><td>Yes — holders may burn their own tokens</td></tr>
+    <tr><th>Owner powers</th><td>No minting, no pausing, no freezing, no seizure</td></tr>
+    <tr><th>Source code</th><td>Verified on Sepolia Etherscan</td></tr>
+  </table>
+</section>
+
+<section class="doc">
+  <h2>3. Contract architecture</h2>
+  <h3>3.1 Fixed supply</h3>
+  <p>The entire supply is minted once in the constructor and assigned to the deploying address. Because the contract contains no mint function, no address — including the owner — can ever create additional tokens. The monetary policy is therefore immutable by construction, not by policy.</p>
+  <h3>3.2 Ownership</h3>
+  <p>TIVOX inherits OpenZeppelin's <code>Ownable</code> so that ownership is explicit and transferable on-chain rather than held by an anonymous deployer. Ownership grants no special powers over the token: it cannot mint, pause transfers, freeze balances, or seize tokens. It exists purely for transparency and future handover. The owner can transfer or renounce ownership at any time.</p>
+  <h3>3.3 Burning</h3>
+  <p>Holders can burn their own tokens, permanently removing them from circulation. Because supply can only decrease and never increase, burning is the only supply-side action available to anyone.</p>
+  <h3>3.4 No upgradeability</h3>
+  <p>The contract is not a proxy and cannot be upgraded. Once deployed, its logic is final. There is no admin function that can change behavior after the fact.</p>
+</section>
+
+<section class="doc">
+  <h2>4. Transparency and verification</h2>
+  <p>The full source code is published and verified on Etherscan, meaning the deployed bytecode is matched against readable source that anyone can review. The contract address and verification link are listed on the landing page and in the footer of this document.</p>
+  <p>All on-chain activity — transfers, burns, and ownership changes — is publicly visible on Sepolia Etherscan.</p>
+</section>
+
+<section class="doc">
+  <h2>5. What TIVOX is not</h2>
+  <ul>
+    <li>It is not an investment, a security, or a financial product.</li>
+    <li>It is not tradeable. There is no liquidity pool and no exchange listing.</li>
+    <li>It does not have a price, and nothing in this document should be read as a promise of value.</li>
+    <li>It is not deployed on mainnet, and there is no mainnet plan at this time.</li>
+    <li>It is not a business, a company, or a legal entity.</li>
+  </ul>
+</section>
+
+<section class="doc">
+  <h2>6. Network and status</h2>
+  <p>TIVOX is live on the Sepolia testnet. Testnet tokens have no monetary value and exist only for development and demonstration. As a result, there is intentionally no liquidity, no market, and no way to exchange TVX for anything.</p>
+</section>
+
+<section class="doc">
+  <h2>7. Roadmap</h2>
+  <ul>
+    <li><strong>Complete</strong> — Contract written, tested, deployed to Sepolia, and verified on Etherscan.</li>
+    <li><strong>Complete</strong> — Public landing page and open-source repository.</li>
+    <li><strong>Current</strong> — Documentation, transparency, and community communication.</li>
+    <li><strong>Under consideration</strong> — Further testnet tooling and educational material. No mainnet deployment is planned.</li>
+  </ul>
+</section>
+
+<section class="doc">
+  <h2>8. Risks and disclosures</h2>
+  <div class="notice">
+    TIVOX is an experimental testnet token provided "as is", with no warranty and no expectation of value. Nothing here is financial advice. Do not send money to anyone offering to sell TVX — such offers are scams. If you interact with the contract, you do so entirely at your own risk, and you are responsible for understanding what it does.
+  </div>
+  <p>Smart contracts can contain bugs despite review and testing. Testnet networks can be reset, deprecated, or interrupted. The project may be discontinued at any time.</p>
+</section>
+
+<section class="doc">
+  <h2>9. FAQ</h2>
+  <h3>Can the supply ever increase?</h3>
+  <p>No. There is no mint function, and the total supply is fixed in the constructor.</p>
+  <h3>Who can mint?</h3>
+  <p>No one. The contract has no mint function at all.</p>
+  <h3>Can the owner take my tokens?</h3>
+  <p>No. Ownership grants no ability to move, freeze, or seize tokens.</p>
+  <h3>Is TVX for sale?</h3>
+  <p>No. It is not listed anywhere and has no liquidity. It cannot be bought or sold.</p>
+  <h3>Will there be a mainnet version?</h3>
+  <p>There is no mainnet plan at this time.</p>
+</section>
+
+<section class="doc">
+  <h2>10. Links</h2>
+  <ul>
+    <li>Website: <a href="./index.html">TIVOX</a></li>
+    <li>Contract: <a href="https://sepolia.etherscan.io/address/0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0#code" target="_blank" rel="noopener">Sepolia Etherscan</a></li>
+    <li>Source repository: <a href="https://github.com/Mistledan/Tivox" target="_blank" rel="noopener">github.com/Mistledan/Tivox</a></li>
+    <li>Community: <a href="https://t.me/TivoxTVX" target="_blank" rel="noopener">Telegram</a></li>
+  </ul>
+</section>
+
+<footer>
+  <div>TIVOX ($TVX) — an independent ERC-20 token project. Slow, stubborn, fixed at 1,000,000.</div>
+  <div class="foot-links">
+    <a href="./index.html">Home</a>
+    <a href="./whitepaper.html">Whitepaper</a>
+    <a href="https://github.com/Mistledan/Tivox" target="_blank" rel="noopener">GitHub</a>
+  </div>
+  <div style="margin-top:20px; color:#444;">TIVOX is not an investment. It has no monetary value and is not tradeable.</div>
+</footer>
+
+</body>
+</html>

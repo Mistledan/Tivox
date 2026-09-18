@@ -14,12 +14,12 @@ TIVOX is a fixed-supply ERC-20 token for Sepolia testing.
 contracts/TIVOX.sol        the token contract
 scripts/                   deploy + transfer helpers
 test/                      Hardhat test suite
-web/                       the standalone site
+web/                       the static site published to GitHub Pages
   index.html               landing page (share this)
-  tools.html               developer tools (load token, send test TVX)
-  app.js, styles.css       tools page scripts/styles
-  assets/mascot.png        brand image (also used for og:image / favicon)
+  whitepaper.html          full project whitepaper
+  styles.css               shared site stylesheet
   404.html                 not-found page
+  assets/mascot.png        brand image (also used for og:image / favicon)
 social/                    social media automation (Telegram, X, YouTube, TikTok)
 .github/workflows/         CI + GitHub Pages deploy + social scheduler
 ```
@@ -117,14 +117,15 @@ npm run transfer:sepolia
 
 ## 8. The website
 
-- `web/index.html` is the public landing page. It reads live supply from several
-  public Sepolia RPCs with automatic fallback, and can connect MetaMask to show a
-  balance or add TVX to the wallet.
-- `web/tools.html` is a noindex developer page for loading token data and sending
-  test TVX.
+The site is fully static — no JavaScript dependencies, no external APIs.
 
-Open either file directly in a browser with MetaMask installed, or serve the
-folder locally:
+- `web/index.html` is the public landing page: overview, token facts, contract
+  address, principles, and FAQ.
+- `web/whitepaper.html` documents the token specification, contract architecture,
+  security model, transparency, and risks.
+- `web/styles.css` is the shared stylesheet used by every page.
+
+Open the files directly in a browser, or serve the folder locally:
 
 ```bash
 npx serve web
@@ -136,12 +137,9 @@ The `Deploy site` workflow publishes the `web/` folder to GitHub Pages on every
 push to `master`/`main`. Enable it once under **Settings → Pages → Build and
 deployment → Source: GitHub Actions**.
 
-Two things to update after you know your URL:
-
-1. Replace `YOUR-USERNAME` in both the `canonical` link and the `og:image` tag in
-   `web/index.html`.
-2. Optionally add your GoatCounter code for privacy-friendly analytics (there is a
-   commented snippet in the `<head>`).
+The site is live at https://mistledan.github.io/Tivox/. The `canonical` and
+Open Graph tags in `web/index.html` and `web/whitepaper.html` already point at
+that URL; update them if the site ever moves.
 
 ## 10. CI
 

@@ -20,12 +20,14 @@ jobs:
       - run: npm test
 
   web:
-    name: Web (syntax check)
+    name: Web (structure check)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Check JavaScript syntax
-        run: node --check web/app.js
+      - name: Check required site files exist
+        run: |
+          set -e
+          for f in web/index.html web/whitepaper.html web/404.html web/styles.css web/assets/mascot.png; do
+            test -f "$f" || { echo "Missing $f"; exit 1; }
+            echo "OK $f"
+          done
