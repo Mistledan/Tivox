@@ -44,6 +44,10 @@ export const config = {
     accessToken: env("TIKTOK_ACCESS_TOKEN"),
     privacyLevel: env("TIKTOK_PRIVACY_LEVEL", "SELF_ONLY"),
   },
+  market: {
+    token: env("TVX_ADDRESS"),
+    lineEnabled: env("SOCIAL_MARKET_LINE", "0") === "1",
+  },
 };
 
 export function platformConfigured(platform) {

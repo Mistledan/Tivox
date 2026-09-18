@@ -99,6 +99,51 @@
     </div>
   </section>
 
+  <section class="section" id="market">
+    <div class="container">
+      <div class="section-head reveal">
+        <span class="eyebrow">Live data · Base</span>
+        <h2>Market pulse</h2>
+        <p id="marketSub">Price, liquidity, and unlock progress — pulled from Uniswap (Base) and on-chain reads. Figures replace the dashes the moment the pool is live.</p>
+      </div>
+      <div class="spec-grid reveal">
+        <div class="spec-item">
+          <div class="value" id="mPrice">—</div>
+          <div class="label">TVX Price</div>
+        </div>
+        <div class="spec-item">
+          <div class="value" id="mChange">—</div>
+          <div class="label">24h Change</div>
+        </div>
+        <div class="spec-item">
+          <div class="value" id="mMcap">—</div>
+          <div class="label">Market Cap</div>
+        </div>
+        <div class="spec-item">
+          <div class="value" id="mLiq">—</div>
+          <div class="label">Liquidity</div>
+        </div>
+        <div class="spec-item">
+          <div class="value" id="mVol">—</div>
+          <div class="label">24h Volume</div>
+        </div>
+        <div class="spec-item">
+          <div class="value" id="mPool">—</div>
+          <div class="label">TVX in Pool</div>
+        </div>
+        <div class="spec-item">
+          <div class="value" id="mVest">—</div>
+          <div class="label">Community Unlocked</div>
+        </div>
+        <div class="spec-item">
+          <div class="value" id="mLp">—</div>
+          <div class="label">LP Burned</div>
+        </div>
+      </div>
+      <p class="market-note reveal" id="marketNote">Pre-launch — panels populate automatically once the pool goes live. Until then, verify everything directly on BaseScan after the token address is published.</p>
+    </div>
+  </section>
+
   <section class="section" id="token">
     <div class="container">
       <div class="section-head reveal">
@@ -240,6 +285,7 @@
       <div class="footer-col">
         <h4>Explore</h4>
         <a href="#overview">Overview</a>
+        <a href="#market">Market</a>
         <a href="#token">Token</a>
         <a href="#principles">Principles</a>
         <a href="#faq">FAQ</a>
@@ -263,6 +309,10 @@
 (function () {
   // TVX mainnet contract address. Fill this in after "npm run launch:base" prints it.
   var TVX_ADDRESS = '0xTVX_MAINNET_CONTRACT_ADDRESS';
+  // Community vesting contract address, also printed by launchBase.js.
+  var VESTING_ADDRESS = '0xVESTING_MAINNET_ADDRESS';
+  window.TVX_ADDRESS = TVX_ADDRESS;
+  window.VESTING_ADDRESS = VESTING_ADDRESS;
   var IS_LIVE = /^0x[a-fA-F0-9]{40}$/.test(TVX_ADDRESS);
 
   var box = document.getElementById('addressBox');
@@ -433,6 +483,9 @@
   }
 })();
 </script>
+
+<script src="./assets/sha3.min.js"></script>
+<script src="./assets/market.js"></script>
 
 </body>
 </html>

@@ -1,5 +1,6 @@
 import { config } from "../config.js";
 import { log } from "../logger.js";
+import { fetchMarket, formatMarket } from "../market.js";
 
 export const name = "telegram";
 
@@ -8,8 +9,16 @@ export function isConfigured() {
 }
 
 export async function publish({ text }, { dryRun }) {
+  let body = text;
+  if (config.market.lineEnabled) {
+    const market = await fetchMarket();
+    if (market) {
+      body = `${text}\n\n${formatMarket(market)}`;
+    }
+  }
+
   if (dryRun) {
-    log(`[telegram] dry-run:\n${text}\n`);
+    log(`[telegram] dry-run:\n${body}\n`);
     return { id: "dry-run" };
   }
 
@@ -19,7 +28,7 @@ export async function publish({ text }, { dryRun }) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       chat_id: config.telegram.chatId,
-      text,
+      text: body,
       disable_web_page_preview: false,
     }),
   });

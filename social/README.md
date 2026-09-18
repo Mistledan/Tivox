@@ -76,6 +76,27 @@ The Content Posting API needs an approved app before it will publish.
 above as repository secrets (**Settings → Secrets and variables → Actions**), then
 run the workflow manually once with **dry_run = true** to confirm output.
 
+## Live market data
+
+- `src/market.js` pulls TVX price, market cap, liquidity, and 24h volume from the
+  free DexScreener API (no key).
+- Set `TVX_ADDRESS` (printed by `npm run launch:base`) to enable it.
+- `SOCIAL_MARKET_LINE=1` appends a live snapshot to every scheduled Telegram post.
+
+## Telegram price bot
+
+`src/priceBot.js` answers `/price` and `/market` in your Telegram chat.
+
+```bash
+node social/src/priceBot.js          # always-on long-polling (needs a host)
+node social/src/priceBot.js --once   # one market snapshot broadcast to the channel
+```
+
+For `--once` you need `TELEGRAM_CHAT_ID` set. For the always-on loop you only need
+`TELEGRAM_BOT_TOKEN`; it persists its polling offset in `content/bot-state.json` so
+restarts don't re-answer old commands. Before launch, `/price` returns a
+"not trading yet" message; after launch it returns the live snapshot.
+
 ## Content rules
 
 The generator is instructed to never promise or imply returns, never guarantee

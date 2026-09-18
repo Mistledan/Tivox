@@ -367,9 +367,18 @@ h1, h2, h3, h4 { font-family: var(--font-display); line-height: 1.15; letter-spa
   margin-top: 8px;
   font-size: 0.74rem;
   letter-spacing: 0.12em;
+  color: var(--muted);
   text-transform: uppercase;
-  color: var(--faint);
 }
+.market-note {
+  margin: 18px auto 0;
+  max-width: 720px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.6;
+}
+.market-note a { color: var(--neon); }
 
 /* ---------- Cards ---------- */
 .card-grid {
