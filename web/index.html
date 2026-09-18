@@ -15,7 +15,7 @@
 <link rel="icon" href="./assets/mascot.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Lato:wght@400;700;900&family=Squada+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./styles.css">
 <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -26,71 +26,77 @@
   <div class="container nav-inner">
     <a class="brand" href="./index.html">
       <img src="./assets/mascot.png" alt="">
-      TIVOX
+      <span class="brand-text">
+        <span class="name">TIVOX</span>
+        <span class="tag">Fixed supply · Sepolia</span>
+      </span>
     </a>
-    <nav class="nav-links" aria-label="Primary">
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="#overview">Overview</a>
-      <a href="#token">Token</a>
+      <a href="#tokenomics">Tokenomics</a>
       <a href="#principles">Principles</a>
+      <a href="#how">How to</a>
       <a href="#faq">FAQ</a>
     </nav>
     <div class="nav-actions">
-      <a class="btn btn-ghost" href="./whitepaper.html">Whitepaper</a>
-      <a class="btn btn-primary" href="https://t.me/TivoxTVX" target="_blank" rel="noopener">Telegram</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <a class="btn btn-outline btn-sm" href="./whitepaper.html">Whitepaper</a>
+      <a class="btn btn-fill btn-sm" href="https://t.me/TivoxTVX" target="_blank" rel="noopener">Telegram</a>
     </div>
   </div>
 </header>
 
 <main>
-  <section class="hero">
+  <section class="hero" id="overview">
     <div class="container hero-grid">
       <div class="hero-copy">
-        <span class="eyebrow">ERC-20 · Sepolia Testnet</span>
-        <h1>The ox <span class="accent">doesn't panic.</span></h1>
+        <span class="hero-kicker">ERC-20 · Sepolia Testnet</span>
+        <h1>The ox <span class="white">doesn't panic.</span></h1>
         <p class="lede">TIVOX is a fixed-supply token with no mint function, no inflation, and no owner backdoor. Exactly 1,000,000 TVX exist — and that can never change.</p>
         <div class="hero-actions">
-          <a class="btn btn-primary" href="./whitepaper.html">Read the Whitepaper</a>
-          <a class="btn btn-ghost" href="https://sepolia.etherscan.io/address/0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0#code" target="_blank" rel="noopener">View on Etherscan</a>
+          <a class="btn btn-fill" href="./whitepaper.html">Read the Whitepaper</a>
+          <a class="btn btn-outline" href="https://sepolia.etherscan.io/address/0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0#code" target="_blank" rel="noopener">View on Etherscan</a>
         </div>
         <p class="hero-note">Not an investment. Not tradeable. A small, honest piece of on-chain engineering.</p>
       </div>
       <div class="hero-art">
-        <img src="./assets/mascot.png" alt="TIVOX ox mascot">
+        <div class="frame">
+          <img src="./assets/mascot.png" alt="TIVOX ox mascot">
+        </div>
       </div>
     </div>
   </section>
 
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <div class="marquee-group">
-        <span>TO THE MOON (EVENTUALLY)</span><span>FIXED SUPPLY</span><span>THE OX DOESN'T PANIC</span><span>VERIFIED ON ETHERSCAN</span><span>STILL PULLING</span><span>1,000,000 TVX FOREVER</span><span>NOBODY MOVES THE OX</span><span>NO MINT FUNCTION</span><span>ZERO NONSENSE</span><span>HOLD TIGHT</span>
+  <div class="ticker-bar" aria-hidden="true">
+    <div class="ticker-track">
+      <div class="ticker-group">
+        <span>FIXED SUPPLY</span><span>★</span><span>THE OX DOESN'T PANIC</span><span>★</span><span>1,000,000 TVX FOREVER</span><span>★</span><span>NO MINT FUNCTION</span><span>★</span><span>VERIFIED ON ETHERSCAN</span><span>★</span><span>SEPOLIA TESTNET</span><span>★</span><span>NOT TRADEABLE</span><span>★</span><span>STILL PULLING</span><span>★</span>
       </div>
-      <div class="marquee-group">
-        <span>TO THE MOON (EVENTUALLY)</span><span>FIXED SUPPLY</span><span>THE OX DOESN'T PANIC</span><span>VERIFIED ON ETHERSCAN</span><span>STILL PULLING</span><span>1,000,000 TVX FOREVER</span><span>NOBODY MOVES THE OX</span><span>NO MINT FUNCTION</span><span>ZERO NONSENSE</span><span>HOLD TIGHT</span>
+      <div class="ticker-group">
+        <span>FIXED SUPPLY</span><span>★</span><span>THE OX DOESN'T PANIC</span><span>★</span><span>1,000,000 TVX FOREVER</span><span>★</span><span>NO MINT FUNCTION</span><span>★</span><span>VERIFIED ON ETHERSCAN</span><span>★</span><span>SEPOLIA TESTNET</span><span>★</span><span>NOT TRADEABLE</span><span>★</span><span>STILL PULLING</span><span>★</span>
       </div>
     </div>
   </div>
 
-  <section class="section" id="overview">
+  <section class="section">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Overview</span>
-        <h2>Built to be boring where it matters</h2>
-        <p>Most tokens are designed to be exciting. TIVOX is designed to be predictable: simple rules, stated up front, and impossible to quietly change after deployment.</p>
+      <div class="section-head center reveal">
+        <h2 class="section-title">Built to be <span class="hl">boring</span> where it matters</h2>
+        <p class="section-sub">Most tokens are designed to be exciting. TIVOX is designed to be predictable: simple rules, stated up front, and impossible to quietly change after deployment.</p>
       </div>
-      <div class="card-grid">
-        <article class="card reveal">
-          <div class="icon">🐂</div>
+      <div class="trust-grid">
+        <article class="card-green reveal">
+          <div class="chip">🐂</div>
           <h3>A fixed supply</h3>
           <p>Exactly 1,000,000 TVX were created at deployment. There is no mint function anywhere in the contract, so no address — including the owner — can ever create more.</p>
         </article>
-        <article class="card reveal">
-          <div class="icon">🔍</div>
+        <article class="card-green reveal">
+          <div class="chip">🔍</div>
           <h3>Open and verified</h3>
           <p>The full source code is verified on Etherscan. No hidden logic, no upgradeable proxy, no private backdoor. Anyone can read exactly what the contract does.</p>
         </article>
-        <article class="card reveal">
-          <div class="icon">🛡️</div>
+        <article class="card-green reveal">
+          <div class="chip">🛡️</div>
           <h3>No promises</h3>
           <p>TIVOX is not an investment product. There is no liquidity pool, no exchange listing, and no price. It exists as a small, honest piece of on-chain engineering.</p>
         </article>
@@ -98,45 +104,51 @@
     </div>
   </section>
 
-  <section class="section" id="token">
+  <section class="section" id="tokenomics">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow testnet">Sepolia Testnet</span>
-        <h2>Token details</h2>
-        <p>A standard ERC-20 with an unusual property: the monetary policy cannot change. Burn your own tokens if you like — the supply can only ever shrink.</p>
+      <div class="section-head center reveal">
+        <h2 class="section-title">Token<span class="hl">omics</span></h2>
+        <p class="section-sub">A standard ERC-20 with an unusual property: the monetary policy cannot change. Burn your own tokens if you like — the supply can only ever shrink.</p>
+      </div>
+      <div class="timeline reveal">
+        <div class="timeline-item">
+          <h3>Total supply — <span class="hl">1,000,000 TVX</span></h3>
+          <p>Minted exactly once at deployment. 18 decimals, symbol <code>TVX</code>, standard ERC-20 interface.</p>
+        </div>
+        <div class="timeline-item">
+          <h3>No <span class="hl">mint</span> function</h3>
+          <p>There is no code path that can create new tokens. No owner, no multisig, no governance vote can inflate the supply.</p>
+        </div>
+        <div class="timeline-item">
+          <h3>Deflationary by <span class="hl">burn</span></h3>
+          <p>Any holder can burn their own balance. Because nothing can be minted, the total supply can only ever decrease.</p>
+        </div>
+        <div class="timeline-item">
+          <h3><span class="hl">0%</span> tax</h3>
+          <p>No transfer fees, no hooks, no hidden deductions. Send it and exactly that amount arrives.</p>
+        </div>
+        <div class="timeline-item">
+          <h3>No liquidity, <span class="hl">not tradeable</span></h3>
+          <p>There is no pool and no listing. TVX has no price and cannot be bought or sold. Anyone offering to sell it to you is a scam.</p>
+        </div>
+        <div class="timeline-item">
+          <h3>Ownership without <span class="hl">power</span></h3>
+          <p>Ownership is explicit and transferable on-chain, but grants no ability to mint, pause, freeze, or seize tokens.</p>
+        </div>
       </div>
 
-      <div class="spec-grid reveal">
-        <div class="spec-item">
-          <div class="value">1,000,000</div>
-          <div class="label">Total Supply</div>
-        </div>
-        <div class="spec-item">
-          <div class="value">TVX</div>
-          <div class="label">Symbol</div>
-        </div>
-        <div class="spec-item">
-          <div class="value">18</div>
-          <div class="label">Decimals</div>
-        </div>
-        <div class="spec-item">
-          <div class="value">ERC-20</div>
-          <div class="label">Standard</div>
-        </div>
-      </div>
-
-      <div class="contract-card reveal" style="margin-top:28px;">
+      <div class="contract-card reveal" style="margin-top:40px;">
         <div>
           <h3>Contract address</h3>
           <p class="hint">Tap the address to copy it. Always verify before interacting.</p>
           <div class="address" id="addressBox" role="button" tabindex="0" aria-label="Copy TIVOX contract address">
             <code>0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0</code>
-            <span class="copy-btn" id="copyLabel">Copy</span>
+            <span class="copy-pill" id="copyLabel">Copy</span>
           </div>
         </div>
         <div class="contract-actions">
-          <a class="btn btn-primary" href="https://sepolia.etherscan.io/address/0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0#code" target="_blank" rel="noopener">Verified source</a>
-          <a class="btn btn-ghost" href="./whitepaper.html">Read whitepaper</a>
+          <a class="btn btn-outline" href="https://sepolia.etherscan.io/address/0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0#code" target="_blank" rel="noopener">Verified source</a>
+          <a class="btn btn-fill" href="./whitepaper.html">Read whitepaper</a>
         </div>
       </div>
     </div>
@@ -144,24 +156,23 @@
 
   <section class="section" id="principles">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">Principles</span>
-        <h2>Three rules, never rewritten</h2>
-        <p>These are enforced by the contract itself, not by a team, a roadmap, or a promise.</p>
+      <div class="section-head center reveal">
+        <h2 class="section-title">Three rules, <span class="hl">never rewritten</span></h2>
+        <p class="section-sub">These are enforced by the contract itself, not by a team, a roadmap, or a promise.</p>
       </div>
-      <div class="card-grid">
-        <article class="card reveal">
-          <div class="icon">∞</div>
+      <div class="trust-grid">
+        <article class="card-green reveal">
+          <div class="chip">∞</div>
           <h3>Fixed supply</h3>
           <p>No mint function. Exactly 1,000,000 TVX exist, and the number can only decrease through voluntary burning.</p>
         </article>
-        <article class="card reveal">
-          <div class="icon">✓</div>
+        <article class="card-green reveal">
+          <div class="chip">✓</div>
           <h3>Transparent</h3>
           <p>The complete source is verified on Etherscan. There is no upgrade mechanism and no admin function that can change behavior later.</p>
         </article>
-        <article class="card reveal">
-          <div class="icon">🔒</div>
+        <article class="card-green reveal">
+          <div class="chip">🔒</div>
           <h3>No privileged control</h3>
           <p>Ownership grants no ability to mint, pause, freeze, or seize tokens. It exists for transparency and handover only.</p>
         </article>
@@ -169,11 +180,67 @@
     </div>
   </section>
 
+  <section class="section" id="how">
+    <div class="container">
+      <div class="section-head center reveal">
+        <h2 class="section-title">How to <span class="hl">look at it</span></h2>
+        <p class="section-sub">(psst... it's a demo) — there is nothing to buy. Here is how to verify TIVOX yourself.</p>
+      </div>
+      <div class="steps">
+        <div class="step reveal">
+          <div class="num">1</div>
+          <h3>Get Sepolia ETH</h3>
+          <p>Grab some free test ETH from a public <a href="https://sepoliafaucet.com/" target="_blank" rel="noopener">Sepolia faucet</a> — it costs nothing.</p>
+        </div>
+        <div class="step reveal">
+          <div class="num">2</div>
+          <h3>Import the token</h3>
+          <p>Add the contract address above in any wallet on Sepolia to see the balance sitting there.</p>
+        </div>
+        <div class="step reveal">
+          <div class="num">3</div>
+          <h3>Read the source</h3>
+          <p>Open the verified contract on <a href="https://sepolia.etherscan.io/address/0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0#code" target="_blank" rel="noopener">Etherscan</a> and check every line.</p>
+        </div>
+        <div class="step reveal">
+          <div class="num">4</div>
+          <h3>Watch it sit</h3>
+          <p>No buying, no selling, no price. It is a small, honest piece of on-chain engineering.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head center reveal">
+        <h2 class="section-title">Find the <span class="hl">herd</span></h2>
+      </div>
+      <div class="tile-grid">
+        <a class="tile reveal" href="https://t.me/TivoxTVX" target="_blank" rel="noopener">
+          <span class="ico">✈️</span>
+          <span class="lbl">Telegram</span>
+        </a>
+        <a class="tile reveal" href="https://github.com/Mistledan/Tivox" target="_blank" rel="noopener">
+          <span class="ico">🐙</span>
+          <span class="lbl">GitHub</span>
+        </a>
+        <a class="tile reveal" href="https://sepolia.etherscan.io/address/0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0#code" target="_blank" rel="noopener">
+          <span class="ico">🔎</span>
+          <span class="lbl">Etherscan</span>
+        </a>
+        <div class="tile pending">
+          <span class="ico">✖️</span>
+          <span class="lbl">X — soon</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="section" id="faq">
     <div class="container">
-      <div class="section-head reveal">
-        <span class="eyebrow">FAQ</span>
-        <h2>Common questions</h2>
+      <div class="section-head center reveal">
+        <h2 class="section-title">Common <span class="hl">questions</span></h2>
       </div>
       <div class="faq-list">
         <details class="faq reveal" open>
@@ -199,6 +266,21 @@
       </div>
     </div>
   </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cta-band reveal">
+        <h2>$TIVOX</h2>
+        <p>Fixed supply. No mint. No panic.</p>
+        <div class="cta-socials">
+          <a href="https://t.me/TivoxTVX" target="_blank" rel="noopener">Telegram</a>
+          <a href="https://github.com/Mistledan/Tivox" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://sepolia.etherscan.io/address/0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0#code" target="_blank" rel="noopener">Etherscan</a>
+          <a href="./whitepaper.html">Whitepaper</a>
+        </div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <footer class="site-footer">
@@ -207,20 +289,19 @@
       <div class="footer-brand">
         <a class="brand" href="./index.html">
           <img src="./assets/mascot.png" alt="">
-          TIVOX
+          <span class="brand-text">
+            <span class="name">TIVOX</span>
+            <span class="tag">Fixed supply · Sepolia</span>
+          </span>
         </a>
-        <p>An independent ERC-20 token project. Slow, stubborn, fixed at 1,000,000.</p>
-        <div style="margin-top:18px;">
-          <a class="social-pill" href="https://t.me/TivoxTVX" target="_blank" rel="noopener">Telegram</a>
-          <a class="social-pill" href="https://github.com/Mistledan/Tivox" target="_blank" rel="noopener">GitHub</a>
-          <span class="social-pill pending">X — soon</span>
-        </div>
+        <p>An independent ERC-20 token project. Slow, stubborn, fixed at 1,000,000. Not an investment, no monetary value, and not tradeable.</p>
       </div>
       <div class="footer-col">
         <h4>Explore</h4>
         <a href="#overview">Overview</a>
-        <a href="#token">Token</a>
+        <a href="#tokenomics">Tokenomics</a>
         <a href="#principles">Principles</a>
+        <a href="#how">How to</a>
         <a href="#faq">FAQ</a>
       </div>
       <div class="footer-col">
@@ -228,11 +309,12 @@
         <a href="./whitepaper.html">Whitepaper</a>
         <a href="https://sepolia.etherscan.io/address/0x9ac5f4d19389842b5Dcd79F70D00816FAB955ED0#code" target="_blank" rel="noopener">Etherscan</a>
         <a href="https://github.com/Mistledan/Tivox" target="_blank" rel="noopener">Source code</a>
+        <a href="https://t.me/TivoxTVX" target="_blank" rel="noopener">Telegram</a>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 TIVOX. Independent project, not a company.</span>
-      <span>TIVOX is not an investment. It has no monetary value and is not tradeable.</span>
+      <span>The ox doesn't panic.</span>
     </div>
   </div>
 </footer>
@@ -287,6 +369,21 @@
       }
     });
   }
+
+  var toggle = document.getElementById('navToggle');
+  var links = document.getElementById('navLinks');
+  if (toggle && links) {
+    toggle.addEventListener('click', function () {
+      var open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    links.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
 })();
 </script>
 
@@ -330,7 +427,7 @@
       function frame() {
         if (!running) return;
         ctx.clearRect(0, 0, w, h);
-        ctx.fillStyle = '#39ff14';
+        ctx.fillStyle = '#01fa85';
         for (var i = 0; i < particles.length; i++) {
           var p = particles[i];
           ctx.globalAlpha = p.a;

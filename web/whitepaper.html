@@ -15,7 +15,7 @@
 <link rel="icon" href="./assets/mascot.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Lato:wght@400;700;900&family=Squada+One&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="./styles.css">
 <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -25,22 +25,31 @@
   <div class="container nav-inner">
     <a class="brand" href="./index.html">
       <img src="./assets/mascot.png" alt="">
-      TIVOX
+      <span class="brand-text">
+        <span class="name">TIVOX</span>
+        <span class="tag">Whitepaper</span>
+      </span>
     </a>
-    <nav class="nav-links" aria-label="Primary">
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="./index.html#overview">Overview</a>
-      <a href="./index.html#token">Token</a>
+      <a href="./index.html#tokenomics">Tokenomics</a>
       <a href="./index.html#principles">Principles</a>
       <a href="./index.html#faq">FAQ</a>
     </nav>
     <div class="nav-actions">
-      <a class="btn btn-ghost" href="./index.html">Home</a>
-      <a class="btn btn-primary" href="https://t.me/TivoxTVX" target="_blank" rel="noopener">Telegram</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
+      <a class="btn btn-outline btn-sm" href="./index.html">Home</a>
+      <a class="btn btn-fill btn-sm" href="https://t.me/TivoxTVX" target="_blank" rel="noopener">Telegram</a>
     </div>
   </div>
 </header>
 
 <main class="container">
+  <div class="doc-hero">
+    <h1>TIVOX Whitepaper</h1>
+    <p class="sub">Version 1.0 · September 2026 · Sepolia Testnet</p>
+  </div>
+
   <div class="doc-layout">
     <aside class="toc" aria-label="Contents">
       <h4>Contents</h4>
@@ -58,8 +67,6 @@
     </aside>
 
     <article class="article">
-      <p class="doc-version">Whitepaper · Version 1.0 · September 2026</p>
-
       <section id="abstract" class="reveal">
         <h2>Abstract</h2>
         <p>TIVOX is a fixed-supply ERC-20 token deployed on the Sepolia testnet. It was created to demonstrate a simple idea: a token whose monetary policy cannot be changed after deployment. There is no mint function, no upgrade mechanism, and no privileged control that can alter supply or move user funds. Exactly 1,000,000 TVX exist, and that number can only ever decrease through voluntary burning.</p>
@@ -191,6 +198,21 @@
 
 <script>
 (function () {
+  var toggle = document.getElementById('navToggle');
+  var links = document.getElementById('navLinks');
+  if (toggle && links) {
+    toggle.addEventListener('click', function () {
+      var open = links.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    links.addEventListener('click', function (e) {
+      if (e.target.tagName === 'A') {
+        links.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
+
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var items = document.querySelectorAll('.reveal');
   function revealAll() {
