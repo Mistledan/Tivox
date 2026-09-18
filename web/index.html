@@ -14,8 +14,10 @@
 <link rel="canonical" href="https://mistledan.github.io/Tivox/">
 <link rel="icon" href="./assets/mascot.png">
 <link rel="stylesheet" href="./styles.css">
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
 
 <header class="hero">
   <img class="mascot" src="./assets/mascot.png" alt="TIVOX ox mascot">
@@ -24,6 +26,17 @@
   <div class="ticker">$TVX</div>
   <div><span class="network-tag">SEPOLIA TESTNET</span></div>
 </header>
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-group">
+      <span>TO THE MOON (EVENTUALLY)</span><span>FIXED SUPPLY</span><span>THE OX DOESN'T PANIC</span><span>VERIFIED ON ETHERSCAN</span><span>STILL PULLING</span><span>1,000,000 TVX FOREVER</span><span>NOBODY MOVES THE OX</span><span>NO MINT FUNCTION</span><span>ZERO NONSENSE</span><span>HOLD TIGHT</span>
+    </div>
+    <div class="marquee-group">
+      <span>TO THE MOON (EVENTUALLY)</span><span>FIXED SUPPLY</span><span>THE OX DOESN'T PANIC</span><span>VERIFIED ON ETHERSCAN</span><span>STILL PULLING</span><span>1,000,000 TVX FOREVER</span><span>NOBODY MOVES THE OX</span><span>NO MINT FUNCTION</span><span>ZERO NONSENSE</span><span>HOLD TIGHT</span>
+    </div>
+  </div>
+</div>
 
 <section class="doc">
   <h2>What is TIVOX?</h2>
@@ -140,6 +153,104 @@
       copy();
     }
   });
+})();
+</script>
+
+<script>
+(function () {
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var canvas = document.getElementById('bg-canvas');
+  if (canvas && !reduce) {
+    var ctx = canvas.getContext('2d');
+    if (ctx) {
+      var DPR = Math.min(window.devicePixelRatio || 1, 2);
+      var w = 0, h = 0, particles = [], rafId = null, running = true;
+
+      function build() {
+        var count = Math.min(90, Math.max(24, Math.round((w * h) / 22000)));
+        particles = [];
+        for (var i = 0; i < count; i++) {
+          particles.push({
+            x: Math.random() * w,
+            y: Math.random() * h,
+            r: Math.random() * 1.6 + 0.4,
+            vx: (Math.random() - 0.5) * 0.18,
+            vy: (Math.random() - 0.5) * 0.18,
+            a: Math.random() * 0.45 + 0.12
+          });
+        }
+      }
+
+      function resize() {
+        w = window.innerWidth;
+        h = window.innerHeight;
+        canvas.width = Math.round(w * DPR);
+        canvas.height = Math.round(h * DPR);
+        canvas.style.width = w + 'px';
+        canvas.style.height = h + 'px';
+        ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        build();
+      }
+
+      function frame() {
+        if (!running) return;
+        ctx.clearRect(0, 0, w, h);
+        ctx.fillStyle = '#39ff14';
+        for (var i = 0; i < particles.length; i++) {
+          var p = particles[i];
+          ctx.globalAlpha = p.a;
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < -12) p.x = w + 12; else if (p.x > w + 12) p.x = -12;
+          if (p.y < -12) p.y = h + 12; else if (p.y > h + 12) p.y = -12;
+        }
+        ctx.globalAlpha = 1;
+        rafId = requestAnimationFrame(frame);
+      }
+
+      window.addEventListener('resize', resize);
+      document.addEventListener('visibilitychange', function () {
+        if (document.hidden) {
+          running = false;
+          if (rafId) cancelAnimationFrame(rafId);
+        } else if (!running) {
+          running = true;
+          rafId = requestAnimationFrame(frame);
+        }
+      });
+
+      resize();
+      rafId = requestAnimationFrame(frame);
+    }
+  }
+
+  var items = document.querySelectorAll('section.doc');
+  function revealAll() {
+    for (var i = 0; i < items.length; i++) items[i].classList.add('visible');
+  }
+  if (reduce || !('IntersectionObserver' in window)) {
+    revealAll();
+  } else {
+    var obs = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    for (var j = 0; j < items.length; j++) obs.observe(items[j]);
+    window.addEventListener('load', function () {
+      setTimeout(function () {
+        for (var k = 0; k < items.length; k++) {
+          if (!items[k].classList.contains('visible')) items[k].classList.add('visible');
+        }
+      }, 2500);
+    });
+  }
 })();
 </script>
 
