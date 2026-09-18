@@ -45,6 +45,9 @@ async function main() {
   const lpPercent = Math.min(100, Math.max(1, Number(env("LP_PERCENT", "80"))));
   const communityPercent = Math.min(100, Math.max(0, Number(env("COMMUNITY_PERCENT", "20"))));
   const renounce = env("RENOUNCE_OWNERSHIP", "false").toLowerCase() === "true";
+  const vestingEnabled = env("VESTING_ENABLED", "true").toLowerCase() !== "false";
+  const cliffSeconds = Math.max(0, Number(env("VESTING_CLIFF_DAYS", "30"))) * 86400;
+  const durationSeconds = Math.max(1, Number(env("VESTING_DURATION_DAYS", "180"))) * 86400;
   const existingAddress = env("TVX_CONTRACT_ADDRESS", "");
 
   // --- 1. Deploy (or load) the token --------------------------------
@@ -103,11 +106,29 @@ async function main() {
   console.log(`Liquidity locked (burned LP): ${hre.ethers.formatEther(lpBurned)} UNI-V2`);
 
   // --- 3. Send the community allocation --------------------------------
+  let vestingAddress = null;
   if (communityAmount > 0n) {
-    console.log("Sending community allocation...");
-    const communityTx = await tvx.transfer(communityWallet, communityAmount);
-    await communityTx.wait();
-    console.log(`Sent ${hre.ethers.formatEther(communityAmount)} TVX to ${communityWallet}`);
+    if (vestingEnabled) {
+      const now = Math.floor(Date.now() / 1000);
+      const start = now + cliffSeconds;
+      const cliffDays = Math.round(cliffSeconds / 86400);
+      const durationDays = Math.round(durationSeconds / 86400);
+
+      console.log(`Deploying community vesting (cliff ${cliffDays} days, ${durationDays} days linear)...`);
+      const Vesting = await hre.ethers.getContractFactory("TokenVesting");
+      const vesting = await Vesting.deploy(communityWallet, start, durationSeconds);
+      await vesting.waitForDeployment();
+      vestingAddress = await vesting.getAddress();
+
+      const vestTx = await tvx.transfer(vestingAddress, communityAmount);
+      await vestTx.wait();
+      console.log(`Vested ${hre.ethers.formatEther(communityAmount)} TVX in ${vestingAddress} for ${communityWallet}`);
+    } else {
+      console.log("Sending community allocation...");
+      const communityTx = await tvx.transfer(communityWallet, communityAmount);
+      await communityTx.wait();
+      console.log(`Sent ${hre.ethers.formatEther(communityAmount)} TVX to ${communityWallet}`);
+    }
   }
 
   // --- 4. Optionally renounce ownership --------------------------------
@@ -121,6 +142,9 @@ async function main() {
   console.log("\nLaunch complete:");
   console.log("  TVX:     ", tvxAddress);
   console.log("  Pair:    ", pairAddress);
+  if (vestingAddress) {
+    console.log("  Vesting: ", vestingAddress, `(beneficiary ${communityWallet})`);
+  }
   console.log("  Buy:     ", `https://app.uniswap.org/swap?chain=base&outputCurrency=${tvxAddress}`);
   console.log("  BaseScan:", `https://basescan.org/token/${tvxAddress}`);
 

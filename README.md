@@ -10,7 +10,8 @@ TIVOX is a community token on the **Base** network that people can actually trad
 - DEX: Uniswap V2 (Base)
 - Transfer tax: 0%
 - Features: burnable, ownable (no privileged powers), no post-deploy minting
-- Distribution: 80% to the Uniswap pool (LP burned = locked forever), 20% to a public community wallet
+- Distribution: 80% to the Uniswap pool (LP burned = locked forever), 20% time-locked
+  in a vesting contract (30-day cliff, then linear unlock over 6 months)
 
 ## Project structure
 
@@ -39,6 +40,10 @@ social/                       social media automation (Telegram, X, YouTube, Tik
 - **Locked liquidity.** At launch, 80% of the supply is paired with ETH on Uniswap
   V2 and the LP tokens are sent to the dead address. That liquidity can never be
   pulled.
+- **Time-locked community share.** The remaining 20% is held by a `TokenVesting`
+  contract (OpenZeppelin `VestingWallet`): zero releases for 30 days, then linear
+  unlock over 6 months to a public beneficiary. The community allocation cannot be
+  dumped at launch.
 - **Why `Ownable`?** Ownership is explicit and transferable on-chain and grants no
   privileged powers (no minting, pausing, freezing, seizure). It is renounced as
   part of the launch procedure for maximum transparency.
@@ -64,10 +69,14 @@ Fill in:
   real ETH, bridged from Ethereum.** Never use a key you are not comfortable using
   on-chain — and never commit `.env`.
 - `ETHERSCAN_API_KEY`: your Etherscan API key (Basescan uses the same account)
-- `COMMUNITY_WALLET`: the address that receives the 20% community allocation
-- `LP_ETH`: how much ETH (in ETH units, e.g. `0.5`) to pair with the tokens
+- `COMMUNITY_WALLET`: the beneficiary that receives the vested 20% community
+  allocation
+- `LP_ETH`: how much ETH (in ETH units, e.g. `0.2` or `0.5`) to pair with the
+  tokens. **0.2 ETH is the honest floor (~$550)** — below that the pool is too
+  shallow to survive; prefer more if you can afford it
 
 Optional overrides (defaults shown): `LP_PERCENT=80`, `COMMUNITY_PERCENT=20`,
+`VESTING_ENABLED=true`, `VESTING_CLIFF_DAYS=30`, `VESTING_DURATION_DAYS=180`,
 `RENOUNCE_OWNERSHIP=true`, `TVX_CONTRACT_ADDRESS=`.
 
 ## 3. Compile and test locally
@@ -77,7 +86,7 @@ npm run compile
 npm test
 ```
 
-## 4. Launch on Base (deploy + lock liquidity + community wallet)
+## 4. Launch on Base (deploy + lock liquidity + vest community share)
 
 The wallet must hold real ETH on Base. Then:
 
@@ -90,10 +99,13 @@ The script, in order:
 1. Deploys `TVX` (1,000,000,000 supply to the deployer)
 2. Approves Uniswap V2 and adds liquidity: `LP_PERCENT`% of supply + `LP_ETH` worth
    of ETH, with the LP tokens sent to the dead address (permanent lock)
-3. Sends `COMMUNITY_PERCENT`% to `COMMUNITY_WALLET`
+3. Deploys a `TokenVesting` (audited OpenZeppelin `VestingWallet`) for the
+   community: `COMMUNITY_PERCENT`% is transferred in and releases to
+   `COMMUNITY_WALLET` only after a 30-day cliff, then linearly over 6 months
 4. Renounces ownership if `RENOUNCE_OWNERSHIP=true`
 
-It prints the token address, pool/pair address, and the Uniswap + BaseScan links.
+It prints the token address, pool/pair address, vesting contract, and the
+Uniswap + BaseScan links.
 
 > Deploy-only (no pool, no allocations): `npm run deploy:base`
 

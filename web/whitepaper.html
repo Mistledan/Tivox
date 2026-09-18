@@ -63,7 +63,7 @@
       <section id="abstract" class="reveal">
         <h2>Abstract</h2>
         <p>TIVOX is a tradable ERC-20 token deployed on the Base network. It has a total supply of 1,000,000,000 TVX, a 0% transfer tax, and no mint function — the supply can never increase and can only decrease through voluntary burning.</p>
-        <p>80% of the supply is paired with ETH in the Uniswap V2 pool at launch, and the pool's LP tokens are sent to the dead address, permanently locking that liquidity. The remaining 20% goes to a single, publicly-labeled community wallet. There is no privileged control: ownership exists on-chain but grants no ability to mint, pause, freeze, or seize tokens, and it can be renounced at any time.</p>
+        <p>80% of the supply is paired with ETH in the Uniswap V2 pool at launch, and the pool's LP tokens are sent to the dead address, permanently locking that liquidity. The remaining 20% is placed in a time-lock vesting contract: nothing releases for the first 30 days, then it unlocks linearly over 6 months to a single, publicly-labeled community wallet. There is no privileged control: ownership exists on-chain but grants no ability to mint, pause, freeze, or seize tokens, and it can be renounced at any time.</p>
         <p>TIVOX is not an investment vehicle and makes no price or return promises. It is a straightforward, transparent, community-owned token built on simple rules that cannot be changed later.</p>
       </section>
 
@@ -89,7 +89,7 @@
           <tr><th>Mint function</th><td>None</td></tr>
           <tr><th>Burnable</th><td>Yes — holders may burn their own tokens</td></tr>
           <tr><th>Liquidity</th><td>80% of supply + ETH, LP tokens burned (permanent lock)</td></tr>
-          <tr><th>Community wallet</th><td>20% of supply, publicly labeled on-chain</td></tr>
+          <tr><th>Community allocation</th><td>20% of supply, 30-day cliff + 6-month linear unlock to a labeled beneficiary</td></tr>
           <tr><th>Owner powers</th><td>No minting, no pausing, no freezing, no seizure</td></tr>
           <tr><th>Source code</th><td>Verified on BaseScan</td></tr>
         </table>
@@ -115,9 +115,9 @@
         <table class="spec">
           <tr><th>Allocation</th><th>Share</th><th>Destination</th></tr>
           <tr><td>Liquidity pool</td><td>80% (800,000,000 TVX)</td><td>Uniswap V2 pair vs ETH; LP tokens sent to the dead address</td></tr>
-          <tr><td>Community wallet</td><td>20% (200,000,000 TVX)</td><td>Single public wallet for incentives and giveaways</td></tr>
+          <tr><td>Community vesting</td><td>20% (200,000,000 TVX)</td><td>Time-locked: 30-day cliff, then linear unlock over 6 months</td></tr>
         </table>
-        <p>Because the LP tokens are burned at creation, the initial liquidity is permanently locked. No mechanism exists to withdraw it. The community wallet is publicly labeled and every one of its transactions is visible on-chain; it holds no privileged access to the contract.</p>
+        <p>Because the LP tokens are burned at creation, the initial liquidity is permanently locked. No mechanism exists to withdraw it. The community allocation sits in a public vesting contract — nothing can be released during the first 30 days, and after that it unlocks in linear amounts only to the labeled beneficiary wallet. Every transaction is visible on-chain, and the vesting contract holds no privileged access to the token.</p>
       </section>
 
       <section id="transparency" class="reveal">
