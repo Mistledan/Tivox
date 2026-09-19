@@ -1,6 +1,7 @@
 import { config } from "../config.js";
 import { log } from "../logger.js";
 import { fetchMarket, formatMarket } from "../market.js";
+import { escapeHtml } from "../escape.js";
 
 export const name = "telegram";
 
@@ -28,8 +29,9 @@ export async function publish({ text }, { dryRun }) {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       chat_id: config.telegram.chatId,
-      text: body,
+      text: escapeHtml(body),
       disable_web_page_preview: false,
+      parse_mode: "HTML",
     }),
   });
 

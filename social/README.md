@@ -99,8 +99,21 @@ node social/src/priceBot.js --once   # one market snapshot broadcast to the chan
 
 For `--once` you need `TELEGRAM_CHAT_ID` set. For the always-on loop you only need
 `TELEGRAM_BOT_TOKEN`; it persists its polling offset in `content/bot-state.json` so
-restarts don't re-answer old commands. Before launch, `/price` returns a
-"not trading yet" message; after launch it returns the live snapshot.
+restarts don't re-answer old commands.
+
+Commands (in-line, in group, or in the channel):
+- `/info` — official links + the verified contract address (post-launch).
+- `/price` / `/market` — live DexScreener snapshot (or a "not trading yet" note
+  pre-launch). The bot also listens in `channel_post` mode, so commands work in
+  a channel where it is admin.
+- `/start` — welcome text. New chat members in a **group** are auto-welcomed the
+  same way (channels don't emit member-join events, so no welcome there).
+
+Telegram posts and replies use `parse_mode=HTML`; anything that can contain
+`& < >` (URLs, LLM output) is escaped, so links render correctly.
+
+Before launch, `/price` returns a "not trading yet" message; after launch it
+returns the live snapshot.
 
 ## Content rules
 

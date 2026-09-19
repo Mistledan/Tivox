@@ -13,9 +13,17 @@ import path from "node:path";
 import { config, CONTENT_DIR } from "./config.js";
 import { log, error } from "./logger.js";
 import { fetchMarket, formatMarket } from "./market.js";
+import { escapeHtml } from "./escape.js";
 
 const API = `https://api.telegram.org/bot${config.telegram.token}`;
 const STATE_FILE = path.join(CONTENT_DIR, "bot-state.json");
+
+const WELCOME =
+  "Welcome to the field.\nTIVOX ($TVX) — 1,000,000,000 supply, 0% tax, LP burned and locked forever.\nUse /info for the official links. Nobody here ever DMs asking for money — if one does, it is a scam.";
+
+function sig() {
+  return "^ The ox survey of the field (live when trading opens).";
+}
 
 async function api(method, payload = {}) {
   const res = await fetch(`${API}/${method}`, {
@@ -50,13 +58,33 @@ function saveOffset(offset) {
 const answers = {
   "/price": async () => {
     const market = await fetchMarket();
-    if (!market) return "TVX is not trading yet. The pool link will be posted here the moment it goes live.";
-    return formatMarket(market);
+    if (!market) {
+      return escapeHtml("TVX is not trading yet. The pool link will be posted here the moment it goes live.");
+    }
+    return `${escapeHtml(formatMarket(market))}\n\n${sig()}`;
   },
   "/market": async () => answers["/price"](),
-  "/start": async () =>
-    "TIVOX ($TVX): 1,000,000,000 supply, 0% tax, LP burned and locked forever.\nCommands: /price",
-  "/help": async () => "TIVOX commands: /price or /market for the live market snapshot.",
+  "/info": async () => {
+    const { token } = config.market;
+    const ready = /^0x[a-fA-F0-9]{40}$/.test(token);
+    const lines = [
+      "TIVOX ($TVX)",
+      "",
+      ready
+        ? `<code>Contract</code>: <code>${token}</code>\n<a href="https://basescan.org/token/${token}">BaseScan</a>"
+        : "Contract: pending launch — it will be posted here the moment the pool goes live.",
+      "",
+      "Website: https://mistledan.github.io/Tivox/",
+      "Whitepaper: https://mistledan.github.io/Tivox/whitepaper.html",
+      "",
+      "1,000,000,000 supply. 0% tax. No mint. LP burned and locked forever.",
+      "Not financial advice. Verify the address before trading.",
+    ];
+    return escapeHtml(lines.join("\n"));
+  },
+  "/start": async () => escapeHtml(WELCOME),
+  "/help": async () =>
+    escapeHtml("TIVOX commands:\n/info — official links and the contract address\n/price or /market — live market snapshot (once trading)"),
 };
 
 async function broadcastOnce() {
@@ -70,6 +98,7 @@ async function broadcastOnce() {
     chat_id: config.telegram.chatId,
     text: answer,
     disable_web_page_preview: false,
+    parse_mode: "HTML",
   });
   log(`broadcast ok (message_id=${result?.message_id})`);
 }
@@ -87,19 +116,35 @@ async function pollLoop() {
       const updates = await api("getUpdates", {
         offset,
         timeout: 30,
-        allowed_updates: ["message"],
+        allowed_updates: ["message", "channel_post"],
       });
       for (const update of updates || []) {
-        const msg = update.message || {};
+        const msg = update.message || update.channel_post || {};
         const chatId = msg.chat && msg.chat.id;
         const text = typeof msg.text === "string" ? msg.text.trim() : "";
+
+        if (chatId && Array.isArray(msg.new_chat_members) && msg.new_chat_members.length > 0) {
+          await api("sendMessage", {
+            chat_id: chatId,
+            text: escapeHtml(WELCOME),
+            disable_web_page_preview: false,
+            parse_mode: "HTML",
+          });
+          log(`welcomed new member(s) in chat ${chatId}`);
+        }
+
         if (!chatId || !text) continue;
 
         const command = text.toLowerCase().split(" ")[0];
         const handler = answers[command];
         if (handler) {
           const answer = await handler();
-          await api("sendMessage", { chat_id: chatId, text: answer, disable_web_page_preview: false });
+          await api("sendMessage", {
+            chat_id: chatId,
+            text: answer,
+            disable_web_page_preview: false,
+            parse_mode: "HTML",
+          });
           log(`answered ${command} in chat ${chatId}`);
         }
         offset = update.update_id + 1;
