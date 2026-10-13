@@ -19,7 +19,7 @@ const API = `https://api.telegram.org/bot${config.telegram.token}`;
 const STATE_FILE = path.join(CONTENT_DIR, "bot-state.json");
 
 const WELCOME =
-  "Welcome to the field.\nTIVOX ($TVX) — 1,000,000,000 supply, 0% tax, LP burned and locked forever.\nUse /info for the official links. Nobody here ever DMs asking for money — if one does, it is a scam.";
+  "Welcome to the field.\nTIVOX ($TVX) - 1,000,000,000 supply, 0% tax, LP burned and locked forever.\nUse /info for the official links. Nobody here ever DMs asking for money - if one does, it is a scam.";
 
 function sig() {
   return "^ The ox survey of the field (live when trading opens).";
@@ -64,6 +64,15 @@ const answers = {
     return `${escapeHtml(formatMarket(market))}\n\n${sig()}`;
   },
   "/market": async () => answers["/price"](),
+  "/chart": async () => {
+    const { token } = config.market;
+    if (!/^0x[a-fA-F0-9]{40}$/.test(token)) {
+      return escapeHtml("No chart yet - TVX is not trading. The DexScreener link goes up the moment the pool is live.");
+    }
+    return escapeHtml(`TVX chart on DexScreener:\nhttps://dexscreener.com/base/${token}`);
+  },
+  "/where": async () => answers["/info"](),
+  "/check": async (arg) => checkAddress(String(arg || "").trim()),
   "/info": async () => {
     const { token } = config.market;
     const ready = /^0x[a-fA-F0-9]{40}$/.test(token);
@@ -71,8 +80,8 @@ const answers = {
       "TIVOX ($TVX)",
       "",
       ready
-        ? `<code>Contract</code>: <code>${token}</code>\n<a href="https://basescan.org/token/${token}">BaseScan</a>"
-        : "Contract: pending launch — it will be posted here the moment the pool goes live.",
+        ? `<code>Contract</code>: <code>${token}</code>\n<a href="https://basescan.org/token/${token}">BaseScan</a>`
+        : "Contract: pending launch - it will be posted here the moment the pool goes live.",
       "",
       "Website: https://mistledan.github.io/Tivox/",
       "Whitepaper: https://mistledan.github.io/Tivox/whitepaper.html",
@@ -84,8 +93,33 @@ const answers = {
   },
   "/start": async () => escapeHtml(WELCOME),
   "/help": async () =>
-    escapeHtml("TIVOX commands:\n/info — official links and the contract address\n/price or /market — live market snapshot (once trading)"),
+    escapeHtml(
+      "TIVOX commands:\n/info - official links and the contract address\n/price or /market - live market snapshot (once trading)\n/chart - DexScreener chart (once trading)\n/check <address> - verify an address against the official contract\n" +
+        "(all commands also work with ! instead of /)"
+    ),
 };
+
+function checkAddress(arg) {
+  const { token } = config.market;
+  const official = token.toLowerCase();
+
+  if (!/^0x[a-f0-9]{40}$/i.test(arg)) {
+    return escapeHtml(
+      "That doesn't look like an Ethereum address (0x + 40 hex characters).\nAlways check an address before you trade it."
+    );
+  }
+  if (!/^0x[a-f0-9]{40}$/i.test(token)) {
+    return escapeHtml(
+      "The official TVX contract is not deployed yet - there is nothing official to check.\nNobody can sell you TVX right now. If someone is trying, it is a scam."
+    );
+  }
+  if (arg.toLowerCase() === official) {
+    return escapeHtml("Yes - that is the official TVX contract. Compare every other address against it.\nNot financial advice. Trade at your own risk.");
+  }
+  return escapeHtml(
+    "That address does not match the official TVX contract.\nRun /info to see the real one, then check again. Do not send funds based on an unverified address."
+  );
+}
 
 async function broadcastOnce() {
   if (!config.telegram.chatId) {
@@ -136,9 +170,10 @@ async function pollLoop() {
         if (!chatId || !text) continue;
 
         const command = text.toLowerCase().split(" ")[0];
+        const args = text.slice(command.length).trim();
         const handler = answers[command];
         if (handler) {
-          const answer = await handler();
+          const answer = await handler(args);
           await api("sendMessage", {
             chat_id: chatId,
             text: answer,

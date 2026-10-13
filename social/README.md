@@ -102,12 +102,20 @@ For `--once` you need `TELEGRAM_CHAT_ID` set. For the always-on loop you only ne
 restarts don't re-answer old commands.
 
 Commands (in-line, in group, or in the channel):
-- `/info` — official links + the verified contract address (post-launch).
+- `/info` (alias `/where`) — official links + the verified contract address
+  (post-launch).
 - `/price` / `/market` — live DexScreener snapshot (or a "not trading yet" note
   pre-launch). The bot also listens in `channel_post` mode, so commands work in
   a channel where it is admin.
+- `/chart` — DexScreener chart link (once trading).
+- `/check <address>` — anti-scam tool: verifies any address against the official
+  TVX contract (or tells you there is nothing official yet, if someone is trying
+  to sell you a "pre-sale" before launch).
 - `/start` — welcome text. New chat members in a **group** are auto-welcomed the
   same way (channels don't emit member-join events, so no welcome there).
+- Every command also works with `!` instead of `/`.
+
+For recommended third-party bots (anti-spam, etc.) see [`BOTS.md`](BOTS.md).
 
 Telegram posts and replies use `parse_mode=HTML`; anything that can contain
 `& < >` (URLs, LLM output) is escaped, so links render correctly.
